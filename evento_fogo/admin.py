@@ -1,3 +1,7 @@
 from django.contrib import admin
+from evento_fogo.models import *
 
-# Register your models here.
+admin.site.register(EventoFogo)
+admin.site.register(OrdemServico)
+admin.site.register(RelatorioOcorrencia)
+admin.site.register(Despacho)

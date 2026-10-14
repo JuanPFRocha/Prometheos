@@ -1,3 +1,5 @@
 from django.contrib import admin
+from gestao.models import *
 
-# Register your models here.
+admin.site.register(Guarnicao)
+admin.site.register(Equipe)

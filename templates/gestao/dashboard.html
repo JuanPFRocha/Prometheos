@@ -20,8 +20,10 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <span class="text-uppercase fw-bold text-muted" style="font-size: 0.72rem; letter-spacing: 0.5px;">Eventos de Fogo Abertos</span>
-                            <h2 class="display-6 fw-bold my-1 text-dark">--</h2>
-                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill small">Aguardando dados</span>
+                            <h2 class="display-6 fw-bold my-1 text-dark">{{ qtdEventoFogo }}</h2>
+                            <a href="">
+                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill small">Aguardando dados</span>
+                            </a>
                         </div>
                         <div class="rounded-3 p-3 d-flex align-items-center justify-content-center" style="background-color: rgba(211, 47, 47, 0.1); width: 48px; height: 48px;">
                             <i class="fa-solid fa-fire-flame-curved text-danger fs-4"></i>
@@ -38,7 +40,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <span class="text-uppercase fw-bold text-muted" style="font-size: 0.72rem; letter-spacing: 0.5px;">Ordens de Serviço Abertas</span>
-                            <h2 class="display-6 fw-bold my-1 text-dark">--</h2>
+                            <h2 class="display-6 fw-bold my-1 text-dark">{{ qtdOrdemServico }}</h2>
                             <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill small">Aguardando dados</span>
                         </div>
                         <div class="rounded-3 p-3 d-flex align-items-center justify-content-center" style="background-color: rgba(255, 87, 34, 0.1); width: 48px; height: 48px;">
@@ -56,7 +58,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <span class="text-uppercase fw-bold text-muted" style="font-size: 0.72rem; letter-spacing: 0.5px;">Despachos Realizados</span>
-                            <h2 class="display-6 fw-bold my-1 text-dark">--</h2>
+                            <h2 class="display-6 fw-bold my-1 text-dark">{{ qtdDespacho }}</h2>
                             <span class="badge bg-purple-subtle text-purple border border-purple-subtle rounded-pill small" style="background-color: rgba(123, 31, 162, 0.1); color: #7B1FA2;">Aguardando dados</span>
                         </div>
                         <div class="rounded-3 p-3 d-flex align-items-center justify-content-center" style="background-color: rgba(123, 31, 162, 0.1); width: 48px; height: 48px;">
@@ -74,7 +76,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <span class="text-uppercase fw-bold text-muted" style="font-size: 0.72rem; letter-spacing: 0.5px;">Bombeiros Disponíveis</span>
-                            <h2 class="display-6 fw-bold my-1 text-dark">--</h2>
+                            <h2 class="display-6 fw-bold my-1 text-dark">{{ qtdBombeiro }}</h2>
                             <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill small">Aguardando dados</span>
                         </div>
                         <div class="rounded-3 p-3 d-flex align-items-center justify-content-center" style="background-color: rgba(25, 135, 84, 0.1); width: 48px; height: 48px;">

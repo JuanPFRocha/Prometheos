@@ -173,7 +173,7 @@
         }
 
         .nav-item-link i {
-            font-size: 1.1rem;
+            font-size: 1.7rem;
             width: 26px;
             min-width: 26px;
             display: flex;
@@ -321,11 +321,11 @@
         <!-- BARRA LATERAL (SIDEBAR) -->
         <nav id="sidebar">
             <div class="sidebar-brand-wrapper">
-                <a href="#" class="sidebar-brand">
+                <a href="" class="sidebar-brand">
                     <div class="brand-icon">
                         <i class="fa-solid fa-fire-flame-curved"></i>
                     </div>
-                    <span class="brand-text">Prometheos</span>
+                    <span class="brand-text">PROMETHEOS</span>
                 </a>
             
             </div>
@@ -333,25 +333,22 @@
             <!-- Menu da Sidebar -->
             <div class="sidebar-menu">
                 <div class="menu-header">Menu Principal</div>
-                <a href="#" class="nav-item-link active" title="Início">
+
+                <a href="{% url 'dashboard' %}"
+                class="nav-item-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+                title="Início">
                     <i class="bi bi-grid-1x2-fill"></i>
-                    <span class="link-text">Início</span>
+                    <span class="link-text">Dashboard</span>
                 </a>
-                <a href="#" class="nav-item-link" title="Ocorrências">
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                    <span class="link-text">Ocorrências</span>
-                </a>
-                <a href="#" class="nav-item-link" title="Mapa GIS">
-                    <i class="bi bi-map-fill"></i>
-                    <span class="link-text">Mapeamento GIS</span>
+                <a href="{% url 'eventoFogo'%}"
+                class="nav-item-link {% if 'eventoFogo' in request.resolver_match.url_name %}active{% endif %}"
+                title="Ocorrências">
+                    <i class="bi bi-fire"></i>
+                    <span class="link-text">Eventos de Fogo</span>
                 </a>
                 <a href="#" class="nav-item-link" title="Equipes">
                     <i class="bi bi-people-fill"></i>
-                    <span class="link-text">Equipes & Brigadas</span>
-                </a>
-                <a href="#" class="nav-item-link" title="Recursos">
-                    <i class="bi bi-truck-front-fill"></i>
-                    <span class="link-text">Frota & Recursos</span>
+                    <span class="link-text">Equipes e Brigadas</span>
                 </a>
                 <a href="#" class="nav-item-link" title="Relatórios">
                     <i class="bi bi-file-earmark-bar-graph-fill"></i>

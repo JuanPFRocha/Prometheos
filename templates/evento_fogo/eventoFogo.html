@@ -1,0 +1,170 @@
+{% extends "layout.html" %}
+
+{% block title %}Eventos de Fogo · Prometheos{% endblock %}
+
+{% block content %}
+
+{# Cabeçalho da página + botão de criar #}
+<div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
+    <div>
+        <h1 class="h2 fw-bold mb-0">Eventos de Fogo</h1>
+        <p class="text-muted mb-0">Registre, acompanhe e encerre os eventos de fogo.</p>
+    </div>
+    <a href="{% url 'adicionaEventoFogo' %}" class="btn text-white fw-semibold" style="background-color: #D32F2F;">
+        <i class="fa-solid fa-plus me-1"></i> Novo evento
+    </a>
+</div>
+
+{# Filtros #}
+<div class="card border-0 shadow-sm mb-4" style="border-left: 4px solid #D32F2F !important;">
+    <div class="card-body p-3">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-12 col-md-4">
+                <label for="filtro-descricao" class="form-label small fw-semibold mb-1">Descrição</label>
+                <input type="text" class="form-control" id="filtro-descricao" name="descricao"
+                       placeholder="Parte da descrição" value="{{ filtros.descricao }}">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="filtro-estatus" class="form-label small fw-semibold mb-1">Status</label>
+                <select class="form-select" id="filtro-estatus" name="estatus">
+                    <option value="">Todos</option>
+                    {% for valor, rotulo in estatus_opcoes %}
+                    <option value="{{ valor }}" {% if filtros.estatus == valor %}selected{% endif %}>{{ rotulo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-6 col-md-3">
+                <label for="filtro-inicio" class="form-label small fw-semibold mb-1">Data do evento: de</label>
+                <input type="date" class="form-control" id="filtro-inicio" name="data_inicio" value="{{ filtros.data_inicio }}">
+            </div>
+            <div class="col-6 col-md-3">
+                <label for="filtro-fim" class="form-label small fw-semibold mb-1">Data do evento: até</label>
+                <input type="date" class="form-control" id="filtro-fim" name="data_fim" value="{{ filtros.data_fim }}">
+            </div>
+
+            <div class="col-6 col-md-3">
+                <label for="filtro-latitude" class="form-label small fw-semibold mb-1">Latitude</label>
+                <input type="number" step="any" class="form-control" id="filtro-latitude" name="latitude"
+                       placeholder="-15.601" value="{{ filtros.latitude }}">
+            </div>
+            <div class="col-6 col-md-3">
+                <label for="filtro-longitude" class="form-label small fw-semibold mb-1">Longitude</label>
+                <input type="number" step="any" class="form-control" id="filtro-longitude" name="longitude"
+                       placeholder="-56.097" value="{{ filtros.longitude }}">
+            </div>
+            <div class="col-12 col-md-6 d-flex justify-content-md-end gap-2">
+                <button type="submit" class="btn btn-dark">
+                    <i class="fa-solid fa-filter me-1"></i> Filtrar
+                </button>
+                <a href="{% url 'eventoFogo' %}" class="btn btn-outline-secondary" title="Limpar filtros" aria-label="Limpar filtros">
+                    <i class="fa-solid fa-rotate-left"></i> Limpar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{# Lista #}
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white d-flex align-items-center justify-content-between py-3">
+        <h2 class="h6 fw-bold mb-0">
+            <i class="fa-solid fa-fire-flame-curved text-danger me-2"></i>Lista de eventos
+        </h2>
+        <span class="badge text-bg-light border">{{ eventos|length }} encontrado{{ eventos|length|pluralize }}</span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                   
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Latitude</th>
+                    <th scope="col">Longitude</th>
+                    <th scope="col">Data do evento</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" class="text-end pe-3">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for evento in eventos %}
+                <tr>
+                   
+                    <td>{{ evento.descricao|truncatechars:60 }}</td>
+                    <td>{{ evento.latitude }}</td>
+                    <td>{{ evento.longitude }}</td>
+                    <td>{{ evento.data_registro|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        {% if evento.estatus == "ABERTO" %}
+                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill">{{ evento.get_estatus_display }}</span>
+                        {% elif evento.estatus == "COMBATE" %}
+                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill">{{ evento.get_estatus_display }}</span>
+                        {% else %}
+                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">{{ evento.get_estatus_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end pe-3 text-nowrap">
+
+                        <a href="" class="btn btn-sm btn-outline-success"
+                           title="Editar" aria-label="Criar Despacho {{ evento.pk }}">
+                            <i class="fa-solid fa-pen-nib"></i> Criar OS
+                        </a>
+                        <a href="{% url 'editaEventoFogo' evento.id %}" class="btn btn-sm btn-outline-secondary"
+                           title="Editar" aria-label="Editar evento {{ evento.pk }}">
+                            <i class="fa-solid fa-pen-to-square"></i> Editar
+                        </a>
+                        <a href="{% url 'excluirEventoFogo' evento.id %}"
+                            class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Excluir o evento?');"
+                            aria-label="Excluir evento {{ evento.id }}">
+                                <i class="fa-solid fa-trash"></i> Excluir
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-5">
+                        <i class="fa-regular fa-folder-open fs-3 d-block mb-2"></i>
+                        Nenhum evento de fogo encontrado.
+                        <div class="mt-2">
+                            <a href="" class="btn btn-sm btn-outline-danger">Registrar o primeiro evento</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{# Confirmação de exclusão #}
+<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluirTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form method="post" id="formExcluir" class="modal-content">
+            {% csrf_token %}
+            <div class="modal-header">
+                <h2 class="modal-title h5" id="modalExcluirTitulo">Excluir evento de fogo</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-1">Você vai excluir o evento <strong id="excluirNome"></strong>.</p>
+                <p class="text-muted small mb-0">As ordens de serviço ligadas a ele também podem ser afetadas. Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-danger">Excluir evento</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Preenche o modal com o evento clicado
+    document.getElementById("modalExcluir").addEventListener("show.bs.modal", function (e) {
+        var botao = e.relatedTarget;
+        document.getElementById("formExcluir").action = botao.dataset.url;
+        document.getElementById("excluirNome").textContent = botao.dataset.nome;
+    });
+</script>
+
+{% endblock %}

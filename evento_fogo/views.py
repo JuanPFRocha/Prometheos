@@ -77,4 +77,60 @@ def editaEventoFogo(request, id=None):
 
 
 def ordemServico(request):
-    return render(request, 'evento_fogo/ordemServico.html')
+    ordens = OrdemServico.objects.all().order_by("-data_emissao")
+
+    filtros = {
+        "codigo" : request.GET.get("codigo", ""),
+        "estatus" : request.GET.get("estatus", ""),
+        "data_inicio" : request.GET.get("data_inicio", ""),
+        "data_fim" : request.GET.get("data_fim", "")
+    }
+
+    if filtros["codigo"]:
+        ordens = ordens.filter(id_evento_fogo__codigo=filtros["codigo"])
+    if filtros["estatus"]:
+        ordens = ordens.filter(estatus=filtros["estatus"])
+    if filtros["data_inicio"]:
+        ordens = ordens.filter(data_registro__date__gte=filtros["data_inicio"])
+    if filtros["data_fim"]:
+        ordens = ordens.filter(data_registro__date__lte=filtros["data_fim"])
+
+    contexto = {
+            "ordens" : ordens,
+            "filtros" : filtros,
+            "estatus_opcoes" : OrdemServico._meta.get_field("estatus").choices
+        }
+    
+
+    return render(request, 'evento_fogo/ordemServico.html', contexto)
+
+def adicionaOrdemServico(request):
+    form = OrdemServicoForm(request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect('ordemServico')
+
+    dicionario = {
+        "form" : form
+    }
+
+    return render (request, 'evento_fogo/adicionaOrdemServico.html', dicionario)
+
+def excluirOrdemServico(request, id=None):
+    os = OrdemServico.objects.get(pk = id)
+    os.delete()
+    return redirect('ordemServico')
+
+def editaOrdemServico(request, id=None):
+    os = OrdemServico.objects.get(pk = id)
+    form = OrdemServicoForm(request.POST or None, instance=os)
+
+    if form.is_valid():
+        form.save()
+        return redirect('ordemServico')
+
+    dicionario = {
+        "form" : form
+    }
+    return render(request, 'evento_fogo/editaOrdemServico.html', dicionario)

@@ -25,7 +25,7 @@ class EventoFogo(models.Model):
 class OrdemServico(models.Model):
     id = models.IntegerField(primary_key=True)
     id_evento_fogo = models.OneToOneField(EventoFogo, on_delete=models.CASCADE)
-    data_emissao = models.DateField()
+    data_emissao = models.DateTimeField()
     estatus = models.CharField(choices=Estatus, default=Estatus.ABERTA)
 
     @property

@@ -7,5 +7,6 @@ urlpatterns = [
     path('eventoFogo/',fogoViews.eventoFogo, name='eventoFogo'),
     path('eventoFogo/deletar/<id>', fogoViews.excluirEventoFogo, name='excluirEventoFogo'),
     path('eventoFogo/adicionar', fogoViews.adicionaEventofogo, name='adicionaEventoFogo'),
-    path('eventoFogo/editar/<id>', fogoViews.editaEventoFogo, name='editaEventoFogo')
+    path('eventoFogo/editar/<id>', fogoViews.editaEventoFogo, name='editaEventoFogo'),
+    path('ordemServico/', fogoViews.ordemServico, name='ordemServico')
 ]

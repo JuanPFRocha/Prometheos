@@ -6,6 +6,7 @@ def eventoFogo(request):
     eventos = EventoFogo.objects.all().order_by("-data_registro")
 
     filtros = {
+        "codigo" : request.GET.get("codigo", ""),
         "descricao" : request.GET.get("descricao", ""),
         "estatus" : request.GET.get("estatus", ""),
         "data_inicio" : request.GET.get("data_inicio", ""),
@@ -13,7 +14,8 @@ def eventoFogo(request):
         "latitude" : request.GET.get("latitude", ""),
         "longitude" : request.GET.get("longitude", "")
     }
-
+    if filtros["codigo"]:
+        eventos = eventos.filter(codigo=filtros["codigo"])
     if filtros["descricao"]:
         eventos = eventos.filter(descricao__icontains=filtros["descricao"])
     if filtros["estatus"]:
@@ -42,7 +44,7 @@ def eventoFogo(request):
 
     return render(request, "evento_fogo/eventoFogo.html", contexto)
 
-def excluirEventoFogo(id=None):
+def excluirEventoFogo(request, id=None):
     evento = EventoFogo.objects.get(pk=id)
     evento.delete()
     return redirect('eventoFogo')
@@ -72,3 +74,7 @@ def editaEventoFogo(request, id=None):
     }
 
     return render(request, 'evento_fogo/editaEventoFogo.html', dicionario)
+
+
+def ordemServico(request):
+    return render(request, 'evento_fogo/ordemServico.html')

@@ -18,6 +18,9 @@ class Usuario(models.Model):
     nome = models.CharField(max_length=50)
     email = models.EmailField()
     perfil = models.CharField(choices=perfil.choices)
+    def __str__(self):
+                return self.nome
+    
 
 class Escala(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -25,6 +28,9 @@ class Escala(models.Model):
     data_inicio = models.DateField()
     data_fim = models.DateField()
     estatus = models.CharField(choices=Estatus.choices, default=Estatus.LIVRE)
+    def __str__(self):
+                return f"ID: {self.id}"
+    
 
 class Bombeiro(models.Model):
     id_usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
@@ -32,6 +38,9 @@ class Bombeiro(models.Model):
     id_escala = models.ManyToManyField(Escala, related_name="bombeiros")
     matricula = models.IntegerField(primary_key=True)
     estatus = models.CharField(choices=Estatus.choices, default=Estatus.LIVRE)
+    def __str__(self):
+                return self.id_usuario.nome
+    
 
 
     

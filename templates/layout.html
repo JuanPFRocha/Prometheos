@@ -346,6 +346,12 @@
                     <i class="bi bi-fire"></i>
                     <span class="link-text">Eventos de Fogo</span>
                 </a>
+                <a href="{% url 'ordemServico'%}"
+                class="nav-item-link {% if 'ordemServico' in request.resolver_match.url_name %}active{% endif %}"
+                title="Ocorrências">
+                    <i class="fa-solid fa-fire-extinguisher"></i>
+                    <span class="link-text">Ordem de Serviço</span>
+                </a>
                 <a href="#" class="nav-item-link" title="Equipes">
                     <i class="bi bi-people-fill"></i>
                     <span class="link-text">Equipes e Brigadas</span>

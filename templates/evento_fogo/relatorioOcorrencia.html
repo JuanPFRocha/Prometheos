@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+
+{% block title %}Ordens de Serviço · Prometheos{% endblock %}
+
+{% block content %}
+
+{# Cabeçalho da página + botão de criar #}
+<div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
+    <div>
+        <h1 class="h2 fw-bold mb-0">Relatório de Ocorrência</h1>
+        <p class="text-muted mb-0">Registre, acompanhe e exclua relatórios de ocorrências.</p>
+    </div>
+    <a href="{% url 'adicionaRelatorioOcorrencia' %}" class="btn text-white fw-semibold" style="background-color: #D32F2F;">
+        <i class="fa-solid fa-plus me-1"></i> Novo RO
+    </a>
+</div>
+
+{# Filtros #}
+<div class="card border-0 shadow-sm mb-4" style="border-left: 4px solid #D32F2F !important;">
+    <div class="card-body p-3">
+        <form method="get" class="row g-3 align-items-end">
+
+            <div class="col-12 col-md-2">
+                <label for="filtro-codigo" class="form-label small fw-semibold mb-1">Código da OS</label>
+                <input type="text" class="form-control" id="filtro-codigo" name="codigo"
+                       placeholder="Ex.: 2024" value="{{ filtros.codigo }}">
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="filtro-descricao" class="form-label small fw-semibold mb-1">Descrição</label>
+                <input type="text" class="form-control" id="filtro-descricao" name="descricao"
+                       placeholder="Parte da descrição" value="{{ filtros.descricao }}">
+            </div>
+
+            <div class="col-12 col-md-2">
+                <label for="filtro-inicio" class="form-label small fw-semibold mb-1">Data: de</label>
+                <input type="date" class="form-control" id="filtro-inicio" name="data_inicio" value="{{ filtros.data_inicio }}">
+            </div>
+
+            <div class="col-12 col-md-2">
+                <label for="filtro-fim" class="form-label small fw-semibold mb-1">Data: até</label>
+                <input type="date" class="form-control" id="filtro-fim" name="data_fim" value="{{ filtros.data_fim }}">
+            </div>
+
+            <div class="col-12 col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-dark w-100">
+                    <i class="fa-solid fa-filter me-1"></i> Filtrar
+                </button>
+                <a href="{% url 'relatorioOcorrencia' %}" class="btn btn-outline-secondary" title="Limpar filtros" aria-label="Limpar filtros">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{# Lista #}
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white d-flex align-items-center justify-content-between py-3">
+        <h2 class="h6 fw-bold mb-0">
+            <i class="fa-solid fa-clipboard-list text-danger me-2"></i>Lista de ordens de serviço
+        </h2>
+        <span class="badge text-bg-light border">{{ ordens|length }} encontrada{{ ordens|length|pluralize }}</span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col" class="ps-3">Código da Ordem de Serviço</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Data de emissão</th>
+                    <th scope="col" class="text-end pe-3">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for relatorio in relatorios %}
+                <tr>
+                    <td class="ps-3">{{ relatorio.codigoOS }}</td>
+                    <td>{{ relatorio.descricao|truncatechars:60 }}</td>
+                    <td>{{ relatorio.data|date:"d/m/Y H:i" }}</td>
+                    
+                    <td class="text-end pe-3 text-nowrap">
+                        {# Troque o href abaixo pela rota de criar despacho quando ela existir #}
+                        <a href="#" class="btn btn-sm btn-outline-success"
+                           title="Criar despacho" aria-label="Criar despacho para a OS {{ ordem.id }}">
+                            <i class="fa-solid fa-truck-fast"></i> Criar Despacho
+                        </a>
+                        <a href="{% url 'editaRelatorioOcorrencia' relatorio.id %}" class="btn btn-sm btn-outline-secondary"
+                           title="Editar" aria-label="Editar OS {{ relatorio.id }}">
+                            <i class="fa-solid fa-pen-to-square"></i> Editar
+                        </a>
+                        <a href="{% url 'excluirRelatorioOcorrencia' relatorio.id %}" class="btn btn-sm btn-outline-danger"
+                           onclick="return confirm('Excluir o Relatorio de Ocorrência?');"
+                           title="Excluir" aria-label="Excluir RO {{ relatorio.id }}">
+                            <i class="fa-solid fa-trash"></i> Excluir
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted py-5">
+                        <i class="fa-regular fa-folder-open fs-3 d-block mb-2"></i>
+                        Nenhuma ordem de serviço encontrada.
+                        <div class="mt-2">
+                            <a href="{% url 'adicionaRelatorioOcorrencia' %}" class="btn btn-sm btn-outline-danger">Registrar a primeira OS</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -9,7 +9,7 @@ class EventoFogoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EventoFogoForm, self).__init__(*args, **kwargs)
-        self.fields['id'].widget.attrs['placeholder'] = 'Número de segurança'
+        self.fields['id'].disabled = True
         self.fields['data_registro'].widget.attrs['placeholder'] = 'Ex: 26/10/2005 12:00'
         self.fields['descricao'].widget.attrs['placeholder'] = 'Preencha com detalhes do evento'
         self.fields['latitude'].widget.attrs['placeholder'] = 'Ex: 12.12312'
@@ -23,7 +23,7 @@ class OrdemServicoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(OrdemServicoForm, self).__init__(*args, **kwargs)
-        self.fields['id'].widget.attrs['placeholder'] = 'Número de segurança'
+        self.fields['id'].disabled = True
         self.fields['data_emissao'].widget.attrs['placeholder'] = 'Ex: 26/10/2005 12:00'
         campo = self.fields['id_evento_fogo']
 
@@ -38,3 +38,22 @@ class OrdemServicoForm(forms.ModelForm):
             disponivel |= Q(pk=self.instance.id_evento_fogo_id)
 
         campo.queryset = EventoFogo.objects.filter(disponivel).order_by("-data_registro")
+
+class RelatorioOcorrenciaForm(forms.ModelForm):
+    class Meta:
+        model = RelatorioOcorrencia
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(RelatorioOcorrenciaForm, self).__init__(*args, **kwargs)
+        self.fields['id'].disabled = True
+        self.fields['data'].widget.attrs['placeholder'] = 'Ex: 16/09/2004'
+        self.fields['descricao'].widget.attrs['placeholder'] = 'Digite a descrição do Relatório'
+        campo = self.fields['id_os']
+        campo.widget = forms.Select(attrs={"class" : "form-select"})
+        campo.empty_label = "Seleciona uma OS"
+        campo.label_from_instance = (
+            lambda e: f"{e.codigoFogo}"
+        )
+
+        campo.queryset = OrdemServico.objects.order_by("-data_emissao")

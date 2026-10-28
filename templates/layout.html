@@ -352,6 +352,12 @@
                     <i class="fa-solid fa-fire-extinguisher"></i>
                     <span class="link-text">Ordem de Serviço</span>
                 </a>
+                <a href="{% url 'relatorioOcorrencia'%}"
+                class="nav-item-link {% if 'relatorioOcorrencia' in request.resolver_match.url_name %}active{% endif %}"
+                title="Ocorrências">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span class="link-text">Relatórios de Ocorrência</span>
+                </a>
                 <a href="#" class="nav-item-link" title="Equipes">
                     <i class="bi bi-people-fill"></i>
                     <span class="link-text">Equipes e Brigadas</span>

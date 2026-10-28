@@ -45,7 +45,10 @@ class RelatorioOcorrencia(models.Model):
     descricao = models.CharField(max_length=200)
     def __str__(self):
                 return f"ID: {self.id}"
-    
+    def codigoOS(self):
+           if self.id_os:
+                  return self.id_os.codigoFogo
+           return None
 
 class Despacho(models.Model):
     id = models.IntegerField(primary_key=True)

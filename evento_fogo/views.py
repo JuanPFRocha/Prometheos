@@ -134,3 +134,53 @@ def editaOrdemServico(request, id=None):
         "form" : form
     }
     return render(request, 'evento_fogo/editaOrdemServico.html', dicionario)
+
+def relatorioOcorrencia(request):
+    relatorios = RelatorioOcorrencia.objects.all().order_by("-data")
+    filtros = {
+        "codigo_os" : request.GET.get("codigo_os", ""),
+        "descricao" : request.GET.get("descricao", ""),
+        "data_inicio" : request.GET.get("data_inicio", ""),
+        "data_fim" : request.GET.get("data_fim", "")
+    }
+
+    if filtros["codigo_os"]:
+        relatorios = relatorios.filter(id_os__codigoFogo=filtros["codigo_os"])
+    if filtros["descricao"]:
+        relatorios = relatorios.filter(descricao__icontains=filtros["descricao"])
+    if filtros["data_inicio"]:
+        relatorios = relatorios.filter(data_registro__date__gte=filtros["data_inicio"])
+    if filtros["data_fim"]:
+        relatorios = relatorios.filter(data_registro__date__lte=filtros["data_fim"])
+
+    contexto = {
+        "relatorios" : relatorios,
+        "filtros" : filtros,
+    }
+    
+        
+    return render(request, 'evento_fogo/relatorioOcorrencia.html', contexto)
+
+def adicionaRelatorioOcorrencia(request):
+    form = RelatorioOcorrenciaForm(request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect('relatorioOcorrencia')
+    return render(request, 'evento_fogo/adicionaRelatorioOcorrencia.html', {"form" : form})
+
+def excluiRelatorioOcorrencia(request, id=None):
+    relatorio = RelatorioOcorrencia.objects.get(pk=id)
+    relatorio.delete()
+
+    return redirect('relatorioOcorrencia')
+
+def editaRelatorioOcorrencia(request, id=None):
+    relatorio = RelatorioOcorrencia.objects.get(pk=id)
+    form = RelatorioOcorrenciaForm(request.POST or None, instance=relatorio)
+
+    if form.is_valid():
+        form.save()
+        return redirect('relatorioOcorrencia')
+
+    return render(request, 'evento_fogo/editaRelatorioOcorrencia.html', {"form" : form})

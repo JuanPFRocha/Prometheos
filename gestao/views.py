@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from evento_fogo.models import EventoFogo, OrdemServico, Despacho
 from usuario.models import Bombeiro
 from gestao.models import Guarnicao
+from .forms import *
 
 def dashboard(request):
     qtd_evento_fogo = EventoFogo.objects.filter(estatus="ABERTO").count()
@@ -48,3 +49,20 @@ def excluirGuarnicao(request, id=None):
     guarnicao = Guarnicao.objects.get(pk=id)
     guarnicao.delete()
     return redirect('guarnicao')
+
+def adicionaGuarnicao(request):
+    form = GuarnicaoForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('guarnicao')
+
+    return render(request, 'gestao/adicionaGuarnicao.html', {"form" : form})
+
+def editaGuarnicao(request, id=None):
+    guarnicao = Guarnicao.objects.get(pk=id)
+    form = GuarnicaoForm(request.POST or None, instance=Guarnicao)
+    if form.is_valid():
+        form.save()
+        return redirect('guarnicao')
+
+    return render(request, 'gestao/editaGuarnicao.html', {"form" : form})

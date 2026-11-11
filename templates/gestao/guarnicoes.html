@@ -10,7 +10,7 @@
         <h1 class="h2 fw-bold mb-0">Guarnições</h1>
         <p class="text-muted mb-0">Registro, edição e adição de guarnições.</p>
     </div>
-    <a href="{% url 'adicionaRelatorioOcorrencia' %}" class="btn text-white fw-semibold" style="background-color: #D32F2F;">
+    <a href="{% url 'adicionaGuarnicao' %}" class="btn text-white fw-semibold" style="background-color: #D32F2F;">
         <i class="fa-solid fa-plus me-1"></i> Nova Guarnição
     </a>
 </div>
@@ -80,7 +80,7 @@
                     
                     <td class="text-end pe-3 text-nowrap">
                         
-                        <a href="" class="btn btn-sm btn-outline-secondary"
+                        <a href="{% url 'editaGuarnicao' guarnicao.id %}" class="btn btn-sm btn-outline-secondary"
                            title="Editar" aria-label="Editar OS {{ relatorio.id }}">
                             <i class="fa-solid fa-pen-to-square"></i> Editar
                         </a>
@@ -97,7 +97,7 @@
                         <i class="fa-regular fa-folder-open fs-3 d-block mb-2"></i>
                         Nenhuma Guarnição encontrada.
                         <div class="mt-2">
-                            <a href="" class="btn btn-sm btn-outline-danger">Registrar a primeira Guarnição</a>
+                            <a href="{% url 'adicionaGuarnicao' %}" class="btn btn-sm btn-outline-danger">Registrar a primeira Guarnição</a>
                         </div>
                     </td>
                 </tr>

@@ -8,6 +8,7 @@ urlpatterns = [
     path('guarnicoes/deletar/<id>', views.excluirGuarnicao, name='excluirGuarnicao'),
     path('guarnicoes/adicionar', views.adicionaGuarnicao, name='adicionaGuarnicao'),
     path('gaurnicoes/editar/<id>', views.editaGuarnicao, name='editaGuarnicao'),
+    path('equipes', views.equipes, name='equipe'),
     path('eventoFogo/',fogoViews.eventoFogo, name='eventoFogo'),
     path('eventoFogo/deletar/<id>', fogoViews.excluirEventoFogo, name='excluirEventoFogo'),
     path('eventoFogo/adicionar', fogoViews.adicionaEventofogo, name='adicionaEventoFogo'),

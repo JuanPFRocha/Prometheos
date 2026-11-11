@@ -361,14 +361,22 @@
                 <a href="{% url 'guarnicao'%}"
                 class="nav-item-link {% if 'guarnicao' in request.resolver_match.url_name %}active{% endif %}"
                 title="Ocorrências">
-                    <i class="bi bi-people-fill"></i>
+                    <i class="fa-solid fa-house-fire"></i>
                     <span class="link-text">Guarnições</span>
                 </a>
-                
-                <a href="#" class="nav-item-link" title="Relatórios">
-                    <i class="bi bi-file-earmark-bar-graph-fill"></i>
-                    <span class="link-text">Relatórios</span>
+                <a href="{% url 'equipe' %}"
+                class="nav-item-link {% if 'equipe' in request.resolver_match.url_name %}active{% endif %}"
+                title="Ocorrências">
+                    <i class="bi bi-people-fill"></i>
+                    <span class="link-text">Equipes</span>
                 </a>
+                <a href=""
+                class="nav-item-link {% if 'guarnicao' in request.resolver_match.url_name %}active{% endif %}"
+                title="Ocorrências">
+                    <i class="fa-solid fa-helmet-safety"></i>
+                    <span class="link-text">Bombeiros</span>
+                </a>
+
                 <a href="#" class="nav-item-link" title="Configurações">
                     <i class="bi bi-gear-fill"></i>
                     <span class="link-text">Configurações</span>

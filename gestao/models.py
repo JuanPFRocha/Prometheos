@@ -12,6 +12,12 @@ class Equipe(models.Model):
     id_comandante = models.ForeignKey("usuario.Bombeiro", on_delete=models.PROTECT)
     def __str__(self):
                 return f"ID: {self.id}"
+
+    @property
+    def nomeComandante(self):
+           if self.id_comandante:
+                  return self.id_comandante.id_usuario.nome
+           return None
     
 
 class Guarnicao(models.Model):

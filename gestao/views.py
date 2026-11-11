@@ -66,3 +66,27 @@ def editaGuarnicao(request, id=None):
         return redirect('guarnicao')
 
     return render(request, 'gestao/editaGuarnicao.html', {"form" : form})
+
+def equipes(request):
+    equipes = Equipe.objects.all().order_by("codigo")
+
+    filtros = {
+        "codigo" : request.GET.get("codigo", ""),
+        "estatus" : request.GET.get("estatus", ""),
+        "comandante" : request.GET.get("comandante", "").strip()
+    }
+
+    if filtros["codigo"]:
+        equipes = equipes.filter(codigo=filtros["codigo"])
+    if filtros['estatus']:
+        equipes = equipes.filter(estatus=filtros["estatus"])
+    if filtros["comandante"]:
+        equipes = equipes.filter(id_comandante__id_usuario__nome__icontains=filtros["comandante"])
+
+    contexto = {
+        "equipes" : equipes,
+        "filtros" : filtros,
+        "estatus_opcoes" : Equipe._meta.get_field("estatus").choices
+    }
+
+    return render(request, 'gestao/equipes.html', contexto)

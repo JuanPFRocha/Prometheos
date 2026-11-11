@@ -34,7 +34,7 @@ class Escala(models.Model):
 
 class Bombeiro(models.Model):
     id_usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
-    id_equipe = models.ForeignKey(Equipe, on_delete=models.PROTECT)
+    id_equipe = models.ForeignKey(Equipe, on_delete=models.PROTECT, blank=True, null=True)
     id_escala = models.ManyToManyField(Escala, related_name="bombeiros")
     matricula = models.IntegerField(primary_key=True)
     estatus = models.CharField(choices=Estatus.choices, default=Estatus.LIVRE)

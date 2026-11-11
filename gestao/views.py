@@ -1,7 +1,8 @@
 from django.http import request
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from evento_fogo.models import EventoFogo, OrdemServico, Despacho
 from usuario.models import Bombeiro
+from gestao.models import Guarnicao
 
 def dashboard(request):
     qtd_evento_fogo = EventoFogo.objects.filter(estatus="ABERTO").count()
@@ -17,3 +18,33 @@ def dashboard(request):
     }
 
     return render(request, 'gestao/dashboard.html', contexto)
+
+def guarnicao(request):
+    guarnicoes = Guarnicao.objects.all().order_by("codigo")
+
+    filtros = {
+        "codigo" : request.GET.get("codigo", ""),
+        "nome" : request.GET.get("nome", ""),
+        "cep" : request.GET.get("cep", "")
+    }
+
+    if filtros["codigo"]:
+        guarnicoes = guarnicoes.filter(codigo=filtros["codigo"])
+
+    if filtros["nome"]:
+        guarnicoes = guarnicoes.filter(nome__icontains=filtros["nome"])
+
+    if filtros["cep"]:
+        guarnicoes = guarnicoes.filter(cep=filtros["cep"])
+
+    contexto = {
+        "guarnicoes" : guarnicoes,
+        "filtros" : filtros
+    }
+
+    return render(request, 'gestao/guarnicoes.html', contexto)
+
+def excluirGuarnicao(request, id=None):
+    guarnicao = Guarnicao.objects.get(pk=id)
+    guarnicao.delete()
+    return redirect('guarnicao')

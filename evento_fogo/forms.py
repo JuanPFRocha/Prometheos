@@ -9,7 +9,7 @@ class EventoFogoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EventoFogoForm, self).__init__(*args, **kwargs)
-        self.fields['id'].disabled = True
+        self.fields['id'].widget.attrs['placeholder'] = 'Número de segurança'
         self.fields['data_registro'].widget.attrs['placeholder'] = 'Ex: 26/10/2005 12:00'
         self.fields['descricao'].widget.attrs['placeholder'] = 'Preencha com detalhes do evento'
         self.fields['latitude'].widget.attrs['placeholder'] = 'Ex: 12.12312'
@@ -23,7 +23,7 @@ class OrdemServicoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(OrdemServicoForm, self).__init__(*args, **kwargs)
-        self.fields['id'].disabled = True
+        self.fields['id'].widget.attrs['placeholder'] = 'Número de segurança'
         self.fields['data_emissao'].widget.attrs['placeholder'] = 'Ex: 26/10/2005 12:00'
         campo = self.fields['id_evento_fogo']
 
@@ -46,7 +46,7 @@ class RelatorioOcorrenciaForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RelatorioOcorrenciaForm, self).__init__(*args, **kwargs)
-        self.fields['id'].disabled = True
+        self.fields['id'].widget.attrs['placeholder'] = 'Número de segurança'
         self.fields['data'].widget.attrs['placeholder'] = 'Ex: 16/09/2004'
         self.fields['descricao'].widget.attrs['placeholder'] = 'Digite a descrição do Relatório'
         campo = self.fields['id_os']

@@ -4,6 +4,8 @@ from evento_fogo import views as fogoViews
 
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
+    path('guarnicoes', views.guarnicao, name='guarnicao'),
+    path('guarnicoes/deletar/<id>', views.excluirGuarnicao, name='excluirGuarnicao'),
     path('eventoFogo/',fogoViews.eventoFogo, name='eventoFogo'),
     path('eventoFogo/deletar/<id>', fogoViews.excluirEventoFogo, name='excluirEventoFogo'),
     path('eventoFogo/adicionar', fogoViews.adicionaEventofogo, name='adicionaEventoFogo'),

@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+
+{% block title %}Ordens de Serviço · Prometheos{% endblock %}
+
+{% block content %}
+
+{# Cabeçalho da página + botão de criar #}
+<div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
+    <div>
+        <h1 class="h2 fw-bold mb-0">Guarnições</h1>
+        <p class="text-muted mb-0">Registro, edição e adição de guarnições.</p>
+    </div>
+    <a href="{% url 'adicionaRelatorioOcorrencia' %}" class="btn text-white fw-semibold" style="background-color: #D32F2F;">
+        <i class="fa-solid fa-plus me-1"></i> Nova Guarnição
+    </a>
+</div>
+
+{# Filtros #}
+<div class="card border-0 shadow-sm mb-4" style="border-left: 4px solid #D32F2F !important;">
+    <div class="card-body p-3">
+        <form method="get" class="row g-3 align-items-end">
+
+            <div class="col-12 col-md-3">
+                <label for="filtro-codigo" class="form-label small fw-semibold mb-1">Código da Guarnição</label>
+                <input type="text" class="form-control" id="filtro-codigo" name="codigo"
+                       placeholder="Ex.: 2024" value="{{ filtros.codigo }}">
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label for="filtro-descricao" class="form-label small fw-semibold mb-1">Nome</label>
+                <input type="text" class="form-control" id="filtro-nome" name="nome"
+                       placeholder="Escreva o nome da Guarnição" value="{{ filtros.nome }}">
+            </div>
+
+            <div class="col-12 col-md-3">
+                <label for="filtro-cep" class="form-label small fw-semibold mb-1">CEP</label>
+                <input type="text" class="form-control" id="filtro-cep" name="cep"
+                        placeholder="Ex: 12345678" value="{{ filtros.cep }}">
+            </div>
+
+
+            <div class="col-12 col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-dark w-100">
+                    <i class="fa-solid fa-filter me-1"></i> Filtrar
+                </button>
+                <a href="{% url 'guarnicao' %}" class="btn btn-outline-secondary" title="Limpar filtros" aria-label="Limpar filtros">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{# Lista #}
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white d-flex align-items-center justify-content-between py-3">
+        <h2 class="h6 fw-bold mb-0">
+            <i class="fa-solid fa-clipboard-list text-danger me-2"></i>Listagem de guarnições
+        </h2>
+        <span class="badge text-bg-light border">{{ ordens|length }} encontrada{{ ordens|length|pluralize }}</span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col" class="ps-3">Código da Guarnição</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">CEP</th>
+                    <th scope="col" class="text-end pe-3">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for guarnicao in guarnicoes %}
+                <tr>
+                    <td class="ps-3">{{ guarnicao.codigo }}</td>
+                    <td>{{ guarnicao.nome|truncatechars:40 }}</td>
+                    <td>{{ guarnicao.cep }}</td>
+                    
+                    <td class="text-end pe-3 text-nowrap">
+                        
+                        <a href="" class="btn btn-sm btn-outline-secondary"
+                           title="Editar" aria-label="Editar OS {{ relatorio.id }}">
+                            <i class="fa-solid fa-pen-to-square"></i> Editar
+                        </a>
+                        <a href="{% url 'excluirGuarnicao' guarnicao.id %}" class="btn btn-sm btn-outline-danger"
+                           onclick="return confirm('Excluir Guarnição?');"
+                           title="Excluir" aria-label="Excluir RO {{ relatorio.id }}">
+                            <i class="fa-solid fa-trash"></i> Excluir
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted py-5">
+                        <i class="fa-regular fa-folder-open fs-3 d-block mb-2"></i>
+                        Nenhuma Guarnição encontrada.
+                        <div class="mt-2">
+                            <a href="" class="btn btn-sm btn-outline-danger">Registrar a primeira Guarnição</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

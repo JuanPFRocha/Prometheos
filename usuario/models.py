@@ -29,8 +29,7 @@ class Escala(models.Model):
     data_fim = models.DateField()
     estatus = models.CharField(choices=Estatus.choices, default=Estatus.LIVRE)
     def __str__(self):
-                return f"ID: {self.id}"
-    
+                return f"{self.data_inicio:%d/%m/%Y} a {self.data_fim:%d/%m/%Y}"
 
 class Bombeiro(models.Model):
     id_usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)

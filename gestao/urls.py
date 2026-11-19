@@ -1,6 +1,7 @@
 from django.urls import path
 from gestao import views
 from evento_fogo import views as fogoViews
+from usuario import views as userViews
 
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
@@ -20,5 +21,7 @@ urlpatterns = [
     path('relatorioOcorrencia/', fogoViews.relatorioOcorrencia, name='relatorioOcorrencia'),
     path('relatorioOcorrencia/adicionar', fogoViews.adicionaRelatorioOcorrencia, name='adicionaRelatorioOcorrencia'),
     path('relatorioOcorrencia/deletar/<id>', fogoViews.excluiRelatorioOcorrencia, name='excluirRelatorioOcorrencia'),
-    path('relatorioOcorrencia/editar/<id>', fogoViews.editaRelatorioOcorrencia, name='editaRelatorioOcorrencia')
+    path('relatorioOcorrencia/editar/<id>', fogoViews.editaRelatorioOcorrencia, name='editaRelatorioOcorrencia'),
+    path('bombeiros', userViews.bombeiro, name='bombeiro'),
+    path('bombeiros/editar/<matricula>', userViews.editaBombeiro, name='editaBombeiro')
 ]

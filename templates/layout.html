@@ -370,8 +370,8 @@
                     <i class="bi bi-people-fill"></i>
                     <span class="link-text">Equipes</span>
                 </a>
-                <a href=""
-                class="nav-item-link {% if 'guarnicao' in request.resolver_match.url_name %}active{% endif %}"
+                <a href="{% url 'bombeiro' %}"
+                class="nav-item-link {% if 'bombeiro' in request.resolver_match.url_name %}active{% endif %}"
                 title="Ocorrências">
                     <i class="fa-solid fa-helmet-safety"></i>
                     <span class="link-text">Bombeiros</span>

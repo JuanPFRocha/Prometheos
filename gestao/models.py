@@ -32,5 +32,5 @@ class Guarnicao(models.Model):
     nome = models.CharField(max_length=50)
     cep = models.CharField(max_length=8, validators=[num_regex])
     def __str__(self):
-                return f"ID: {self.id}"
+                return self.nome
     

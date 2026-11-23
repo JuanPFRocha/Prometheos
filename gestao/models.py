@@ -18,6 +18,7 @@ class Equipe(models.Model):
            if self.id_comandante:
                   return self.id_comandante.id_usuario.nome
            return None
+
     
 
 class Guarnicao(models.Model):

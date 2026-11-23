@@ -184,3 +184,34 @@ def editaRelatorioOcorrencia(request, id=None):
         return redirect('relatorioOcorrencia')
 
     return render(request, 'evento_fogo/editaRelatorioOcorrencia.html', {"form" : form})
+
+def despacho(request):
+    despachos = Despacho.objects.all().order_by("-data")
+
+    filtros = {
+        "id_ro" : request.GET.get("id_ro", ""),
+        "id_equipe" : request.GET.get("id_equipe", ""),
+        "data_inicio" : request.GET.get("data_inicio", ""),
+        "data_fim" : request.GET.get("data_fim", ""),
+        "estatus" : request.GET.get("estatus", "")
+    }
+
+    if filtros["id_ro"]:
+        despachos = despachos.filter(id_ro__codigoRO=filtros["id_ro"])
+    if filtros["id_equipe"]:
+        despachos = despachos.filter(id_equipe__codigoEquipe=filtros["id_equipe"])
+    if filtros["data_inicio"]:
+        despachos = despachos.filter(data_registro__date__gte=filtros["data_inicio"])
+    if filtros["data_fim"]:
+        despachos = despachos.filter(data_registro__date__lte=filtros["data_fim"])
+    if filtros["estatus"]:
+        despachos = despachos.filter(estatus=filtros["estatus"])
+
+    contexto = {
+        "despachos" : despachos,
+        "filtros" : filtros,
+        "estatus_opcoes" : Despacho._meta.get_field("estatus").choices
+    }
+
+    return render(request, 'evento_fogo/despachos.html', contexto)
+

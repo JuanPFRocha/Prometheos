@@ -90,3 +90,6 @@ def equipes(request):
     }
 
     return render(request, 'gestao/equipes.html', contexto)
+
+def config(request):
+    return render(request, 'gestao/config.html')

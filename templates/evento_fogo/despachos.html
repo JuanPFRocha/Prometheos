@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+
+{% block title %}Ordens de Serviço · Prometheos{% endblock %}
+
+{% block content %}
+
+{# Cabeçalho da página + botão de criar #}
+<div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
+    <div>
+        <h1 class="h2 fw-bold mb-0">Despachos</h1>
+        <p class="text-muted mb-0">Página para listagem dos despachos.</p>
+    </div>
+</div>
+
+{# Filtros #}
+<div class="card border-0 shadow-sm mb-4" style="border-left: 4px solid #D32F2F !important;">
+    <div class="card-body p-3">
+        <form method="get" class="row g-3 align-items-end">
+
+            <div class="col-12 col-md-2">
+                <label for="filtro-id_ro" class="form-label small fw-semibold mb-1">Registro de Ocorrência</label>
+                <input type="text" class="form-control" id="filtro-id_ro" name="id_ro"
+                       placeholder="Escolha o RO" value="{{ filtros.id_ro }}">
+            </div>
+
+            <div class="col-12 col-md-2">
+                <label for="filtro-id_equipe" class="form-label small fw-semibold mb-1">Equipe</label>
+                <input type="text" class="form-control" id="filtro-id_equipe" name="id_equipe"
+                       placeholder="Escolha a Equipe" value="{{ filtros.id_equipe }}">
+            </div>
+
+            <div class="col-12 col-md-2">
+                <label for="filtro-data_inicio" class="form-label small fw-semibold mb-1">Data início</label>
+                <input type="text" class="form-control" id="filtro-data_inicio" name="data_inicio"
+                        placeholder="Ex: 12/02/2012" value="{{ filtros.data_inicio}}">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="filtro-data_fim" class="form-label small fw-semibold mb-1">Data Fim</label>
+                <input type="text" class="form-control" id="filtro-data_fim" name="data_fim"
+                        placeholder="Ex: 12/02/2012" value="{{ filtros.data_fim}}">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="filtro-estatus" class="form-label small fw-semibold mb-1">Estatus</label>
+                <select class="form-select" id="filtro-estatus" name="estatus">
+                    <option value="">Todos</option>
+                    {% for valor, rotulo in estatus_opcoes %}
+                    <option value="{{ valor }}" {% if filtros.estatus == valor %}selected{% endif %}>{{ rotulo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+            <div class="col-12 col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-dark w-100">
+                    <i class="fa-solid fa-filter me-1"></i> Filtrar
+                </button>
+                <a href="{% url 'despacho' %}" class="btn btn-outline-secondary" title="Limpar filtros" aria-label="Limpar filtros">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{# Lista #}
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white d-flex align-items-center justify-content-between py-3">
+        <h2 class="h6 fw-bold mb-0">
+            <i class="fa-solid fa-clipboard-list text-danger me-2"></i>Listagem de despachos
+        </h2>
+        <span class="badge text-bg-light border">{{ ordens|length }} encontrada{{ ordens|length|pluralize }}</span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col" class="ps-3">Registro de Ocorrência</th>
+                    <th scope="col">Equipe</th>
+                    <th scope="col">Data de despacho</th>
+                    <th scope="col">Estatus</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for despacho in despachos %}
+                <tr>
+                    <td class="ps-3">{{ despacho.id_ro.codigo }}</td>
+                    <td>{{ despacho.id_equipe.codigo }}</td>
+                    <td>{{ despacho.data|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        {% if despacho.estatus == "ABERTA" %}
+                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill">{{ despacho.get_estatus_display }}</span>
+                        {% elif despacho.estatus == "ANDAMENTO" %}
+                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill">{{ despacho.get_estatus_display }}</span>
+                        {% elif despacho.estatus == "FECHADA" %}
+                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">{{ despacho.get_estatus_display }}</span>
+                        {% else %}
+                        <span class="badge bg-light text-dark border rounded-pill">{{ despacho.get_estatus_display|default:despacho.estatus }}</span>
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted py-5">
+                        <i class="fa-regular fa-folder-open fs-3 d-block mb-2"></i>
+                        Nenhum despacho encontrado.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

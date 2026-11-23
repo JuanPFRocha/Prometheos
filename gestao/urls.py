@@ -14,6 +14,7 @@ urlpatterns = [
     path('eventoFogo/deletar/<id>', fogoViews.excluirEventoFogo, name='excluirEventoFogo'),
     path('eventoFogo/adicionar', fogoViews.adicionaEventofogo, name='adicionaEventoFogo'),
     path('eventoFogo/editar/<id>', fogoViews.editaEventoFogo, name='editaEventoFogo'),
+    path('despacho', fogoViews.despacho, name='despacho'),
     path('ordemServico/', fogoViews.ordemServico, name='ordemServico'),
     path('ordemServico/adicionar', fogoViews.adicionaOrdemServico, name='adicionaOrdemServico'),
     path('ordemServico/deletar/<id>', fogoViews.excluirOrdemServico, name='excluirOrdemServico'),
@@ -23,5 +24,6 @@ urlpatterns = [
     path('relatorioOcorrencia/deletar/<id>', fogoViews.excluiRelatorioOcorrencia, name='excluirRelatorioOcorrencia'),
     path('relatorioOcorrencia/editar/<id>', fogoViews.editaRelatorioOcorrencia, name='editaRelatorioOcorrencia'),
     path('bombeiros', userViews.bombeiro, name='bombeiro'),
-    path('bombeiros/editar/<matricula>', userViews.editaBombeiro, name='editaBombeiro')
+    path('bombeiros/editar/<matricula>', userViews.editaBombeiro, name='editaBombeiro'),
+    path('configurações', views.config, name='config')
 ]

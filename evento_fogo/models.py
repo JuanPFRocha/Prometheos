@@ -40,6 +40,7 @@ class OrdemServico(models.Model):
 
 class RelatorioOcorrencia(models.Model):
     id = models.IntegerField(primary_key=True)
+    codigo = models.IntegerField()
     id_os = models.ForeignKey(OrdemServico, on_delete=models.CASCADE)
     data = models.DateTimeField()
     descricao = models.CharField(max_length=200)
@@ -58,5 +59,17 @@ class Despacho(models.Model):
     estatus = models.CharField(choices=Estatus, default=Estatus.ANDAMENTO)
     def __str__(self):
                 return f"ID: {self.id}"
+
+    @property
+    def codigoEquipe(self):
+           if self.id_equipe:
+                  return self.id_equipe.id
+           return None
+
+    @property
+    def codigoRO(self):
+           if self.id_ro:
+                  return self.id_ro.id
+           return None
     
 

@@ -1,16 +1,14 @@
 {% extends "layout.html" %}
 
-{% block title %}Ordens de Serviço · Prometheos{% endblock %}
+{% block title %}Equipes · Prometheos{% endblock %}
 
 {% block content %}
 
-{# Cabeçalho da página + botão de criar #}
+{# Cabeçalho da página #}
 <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
     <div>
         <h1 class="h2 fw-bold mb-0">Equipes</h1>
-
     </div>
-    
 </div>
 
 {# Filtros #}
@@ -23,6 +21,7 @@
                 <input type="text" class="form-control" id="filtro-codigo" name="codigo"
                        placeholder="Ex.: 2024" value="{{ filtros.codigo }}">
             </div>
+
             <div class="col-12 col-md-4">
                 <label for="filtro-comandante" class="form-label small fw-semibold mb-1">Nome do Comandante</label>
                 <input type="text" class="form-control" id="filtro-comandante" name="comandante"
@@ -38,7 +37,6 @@
                     {% endfor %}
                 </select>
             </div>
-
 
             <div class="col-12 col-md-2 d-flex gap-2">
                 <button type="submit" class="btn btn-dark w-100">
@@ -59,7 +57,7 @@
         <h2 class="h6 fw-bold mb-0">
             <i class="fa-solid fa-clipboard-list text-danger me-2"></i>Listagem de Equipes
         </h2>
-        <span class="badge text-bg-light border">{{ ordens|length }} encontrada{{ ordens|length|pluralize }}</span>
+        <span class="badge text-bg-light border">{{ equipes|length }} encontrada{{ equipes|length|pluralize }}</span>
     </div>
 
     <div class="table-responsive">
@@ -85,24 +83,22 @@
                         {% else %}
                         <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">{{ equipe.get_estatus_display|default:equipe.estatus }}</span>
                         {% endif %}
-                    </td>''
-                    
+                    </td>
                     <td class="text-end pe-3 text-nowrap">
-                        
-                        <a href="" class="btn btn-sm btn-outline-primary"
-                           title="Editar" aria-label="Editar OS {{ relatorio.id }}">
+                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                data-bs-toggle="modal" data-bs-target="#modalBombeiros"
+                                data-url="{% url 'listaBombeiro' equipe.pk %}"
+                                data-equipe="{{ equipe.codigo }}"
+                                aria-label="Listar bombeiros da equipe {{ equipe.codigo }}">
                             <i class="fa-solid fa-user-shield"></i> Listar Bombeiros
-                        </a>
+                        </button>
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
                     <td colspan="4" class="text-center text-muted py-5">
                         <i class="fa-regular fa-folder-open fs-3 d-block mb-2"></i>
-                        Nenhuma Guarnição encontrada.
-                        <div class="mt-2">
-                            <a href="{% url 'adicionaGuarnicao' %}" class="btn btn-sm btn-outline-danger">Registrar a primeira Guarnição</a>
-                        </div>
+                        Nenhuma Equipe encontrada.
                     </td>
                 </tr>
                 {% endfor %}
@@ -110,5 +106,49 @@
         </table>
     </div>
 </div>
+
+{# Modal único: o conteúdo é carregado pela view bombeirosEquipe #}
+<div class="modal fade" id="modalBombeiros" tabindex="-1" aria-labelledby="modalBombeirosTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow rounded-3 overflow-hidden">
+
+            <div style="height: 4px; background: linear-gradient(90deg, var(--fire-orange), var(--fire-red-dark), var(--purple-mid));"></div>
+
+            <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold" id="modalBombeirosTitulo">
+                    <i class="fa-solid fa-user-shield text-primary me-2"></i>Bombeiros · Equipe <span id="modalBombeirosEquipe"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <div class="modal-body p-4" id="modalBombeirosCorpo"></div>
+
+            <div class="modal-footer bg-light border-top">
+                <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-dismiss="modal">
+                    Fechar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("modalBombeiros").addEventListener("show.bs.modal", async function (e) {
+        var botao = e.relatedTarget;
+        var corpo = document.getElementById("modalBombeirosCorpo");
+
+        document.getElementById("modalBombeirosEquipe").textContent = botao.dataset.equipe;
+        corpo.innerHTML = '<div class="text-center text-muted py-5">Carregando...</div>';
+
+        try {
+            var resposta = await fetch(botao.dataset.url);
+            if (!resposta.ok) throw new Error(resposta.status);
+            corpo.innerHTML = await resposta.text();
+        } catch (erro) {
+            corpo.innerHTML = '<div class="text-center text-danger py-5">Não foi possível carregar os bombeiros.</div>';
+        }
+    });
+</script>
 
 {% endblock %}

@@ -93,3 +93,15 @@ def equipes(request):
 
 def config(request):
     return render(request, 'gestao/config.html')
+
+def listarBombeiros(request, id=None):
+    equipe = Equipe.objects.get(pk=id)
+
+    bombeiros = (
+        Bombeiro.objects.filter(id_equipe=equipe)
+        .select_related("id_usuario")
+        .prefetch_related("id_escala")
+        .order_by("id_usuario__nome")
+    )
+
+    return render(request, 'gestao/listaBombeiro.html', {"equipe" : equipe, "bombeiros" : bombeiros})

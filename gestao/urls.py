@@ -10,6 +10,7 @@ urlpatterns = [
     path('guarnicoes/adicionar', views.adicionaGuarnicao, name='adicionaGuarnicao'),
     path('gaurnicoes/editar/<id>', views.editaGuarnicao, name='editaGuarnicao'),
     path('equipes', views.equipes, name='equipe'),
+    path('equipes/listaBombeiro/<id>', views.listarBombeiros, name='listaBombeiro'),
     path('eventoFogo/',fogoViews.eventoFogo, name='eventoFogo'),
     path('eventoFogo/deletar/<id>', fogoViews.excluirEventoFogo, name='excluirEventoFogo'),
     path('eventoFogo/adicionar', fogoViews.adicionaEventofogo, name='adicionaEventoFogo'),
@@ -25,5 +26,5 @@ urlpatterns = [
     path('relatorioOcorrencia/editar/<id>', fogoViews.editaRelatorioOcorrencia, name='editaRelatorioOcorrencia'),
     path('bombeiros', userViews.bombeiro, name='bombeiro'),
     path('bombeiros/editar/<matricula>', userViews.editaBombeiro, name='editaBombeiro'),
-    path('configurações', views.config, name='config')
+    
 ]

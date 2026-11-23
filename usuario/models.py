@@ -24,6 +24,7 @@ class Usuario(models.Model):
 
 class Escala(models.Model):
     id = models.IntegerField(primary_key=True)
+    codigo = models.IntegerField()
     id_guarnicao = models.ForeignKey(Guarnicao, on_delete=models.PROTECT)
     data_inicio = models.DateField()
     data_fim = models.DateField()

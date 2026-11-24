@@ -2,6 +2,7 @@ from datetime import timezone
 
 from django.db import models
 from gestao.models import Equipe, Guarnicao
+from usuario.profi import Proficiencia
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
@@ -40,6 +41,7 @@ class Bombeiro(models.Model):
     id_escala = models.ForeignKey(Escala, on_delete=models.SET_NULL, null=True, blank=True, related_name="bombeiros")
     matricula = models.IntegerField(primary_key=True)
     estatus = models.CharField(choices=Estatus.choices, default=Estatus.LIVRE)
+    proficiencia = models.CharField(choices=Proficiencia.choices, blank=True, null=True, default=None)
     def __str__(self):
                 return self.id_usuario.nome
 

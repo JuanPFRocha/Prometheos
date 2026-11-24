@@ -142,5 +142,9 @@
         </div>
     </div>
 </div>
-
+{% if form.instance.pk %}
+    <script>
+        document.getElementById("{{ form.id.id_for_label }}").disabled = true;
+    </script>
+    {% endif %}
 {% endblock %}

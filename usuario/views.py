@@ -81,3 +81,14 @@ def adicionaEscala(request):
         return redirect('escala')
     
     return render(request, 'usuarios/adicionaEscala.html', {"form" : form})
+
+def editaEscala(request, id=None):
+    escala = Escala.objects.get(pk=id)
+    form = EscalaForm(request.POST or None, instance=escala)
+
+    if form.is_valid():
+        form.save()
+        return redirect('escala')
+
+    return render(request, 'usuarios/editaEscala.html', {"form" : form})
+

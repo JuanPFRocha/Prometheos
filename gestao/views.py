@@ -60,7 +60,7 @@ def adicionaGuarnicao(request):
 
 def editaGuarnicao(request, id=None):
     guarnicao = Guarnicao.objects.get(pk=id)
-    form = GuarnicaoForm(request.POST or None, instance=Guarnicao)
+    form = GuarnicaoForm(request.POST or None, instance=guarnicao)
     if form.is_valid():
         form.save()
         return redirect('guarnicao')

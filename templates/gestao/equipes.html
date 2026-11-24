@@ -92,6 +92,11 @@
                                 aria-label="Listar bombeiros da equipe {{ equipe.codigo }}">
                             <i class="fa-solid fa-user-shield"></i> Listar Bombeiros
                         </button>
+                        <a href="{% url 'excluirEquipe' equipe.id %}" class="btn btn-sm btn-outline-danger"
+                           onclick="return confirm('Excluir Equipe?');"
+                           title="Excluir" aria-label="Excluir RO {{ relatorio.id }}">
+                            <i class="fa-solid fa-trash"></i> Excluir
+                        </a>
                     </td>
                 </tr>
                 {% empty %}

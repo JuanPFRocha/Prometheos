@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.http import request
 from django.shortcuts import render, redirect
 from evento_fogo.models import EventoFogo, OrdemServico, Despacho
@@ -90,6 +91,15 @@ def equipes(request):
     }
 
     return render(request, 'gestao/equipes.html', contexto)
+
+def excluirEquipe(request, id=None):
+    equipe = Equipe.objects.get(pk=id)
+    with transaction.atomic():
+        for b in Bombeiro.objects.filter(id_equipe=equipe):
+            b.id_equipe = None
+            b.save()  
+        equipe.delete()
+    return redirect('equipe')
 
 def config(request):
     return render(request, 'gestao/config.html')

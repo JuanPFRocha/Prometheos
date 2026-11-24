@@ -364,6 +364,12 @@
                     <i class="fa-solid fa-house-fire"></i>
                     <span class="link-text">Guarnições</span>
                 </a>
+                <a href="{% url 'escala' %}"
+                class="nav-item-link {% if 'escala' in request.resolver_match.url_name %}active{% endif %}"
+                title="Ocorrências">
+                    <i class="fa-solid fa-user-clock"></i>
+                    <span class="link-text">Escalas</span>
+                </a>
                 <a href="{% url 'equipe' %}"
                 class="nav-item-link {% if 'equipe' in request.resolver_match.url_name %}active{% endif %}"
                 title="Ocorrências">

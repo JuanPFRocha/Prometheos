@@ -60,16 +60,5 @@ class Despacho(models.Model):
     def __str__(self):
                 return f"ID: {self.id}"
 
-    @property
-    def codigoEquipe(self):
-           if self.id_equipe:
-                  return self.id_equipe.id
-           return None
 
-    @property
-    def codigoRO(self):
-           if self.id_ro:
-                  return self.id_ro.id
-           return None
-    
 

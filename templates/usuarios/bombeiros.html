@@ -84,7 +84,15 @@
                     <td class="ps-3">{{ bombeiro.matricula }}</td>
                     <td>{{ bombeiro.id_usuario.nome }}</td>
                     <td>{{ bombeiro.id_usuario.email }}</td>
-                    <td>{{ bombeiro.estatus }}</td>
+                    <td>
+                        {% if bombeiro.estatus == "LIVRE" %}
+                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">{{ bombeiro.get_estatus_display }}</span>
+                        {% elif bombeiro.estatus == "INDISPONIVEL" %}
+                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill">{{ bombeiro.get_estatus_display }}</span>
+                        {% else %}
+                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">{{ bombeiro.get_estatus_display|default:bombeiro.estatus }}</span>
+                        {% endif %}
+                    </td>
                     
                     <td class="text-end pe-3 text-nowrap">
                         

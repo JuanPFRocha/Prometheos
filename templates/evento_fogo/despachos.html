@@ -20,24 +20,24 @@
             <div class="col-12 col-md-2">
                 <label for="filtro-id_ro" class="form-label small fw-semibold mb-1">Registro de Ocorrência</label>
                 <input type="text" class="form-control" id="filtro-id_ro" name="id_ro"
-                       placeholder="Escolha o RO" value="{{ filtros.id_ro }}">
+                       placeholder="Digite o código do RO" value="{{ filtros.id_ro }}">
             </div>
 
             <div class="col-12 col-md-2">
                 <label for="filtro-id_equipe" class="form-label small fw-semibold mb-1">Equipe</label>
                 <input type="text" class="form-control" id="filtro-id_equipe" name="id_equipe"
-                       placeholder="Escolha a Equipe" value="{{ filtros.id_equipe }}">
+                       placeholder="Digite o código da equipe" value="{{ filtros.id_equipe }}">
             </div>
 
             <div class="col-12 col-md-2">
                 <label for="filtro-data_inicio" class="form-label small fw-semibold mb-1">Data início</label>
-                <input type="text" class="form-control" id="filtro-data_inicio" name="data_inicio"
-                        placeholder="Ex: 12/02/2012" value="{{ filtros.data_inicio}}">
+                <input type="date" class="form-control" id="filtro-data_inicio" name="data_inicio"
+                         value="{{ filtros.data_inicio}}">
             </div>
             <div class="col-12 col-md-2">
                 <label for="filtro-data_fim" class="form-label small fw-semibold mb-1">Data Fim</label>
-                <input type="text" class="form-control" id="filtro-data_fim" name="data_fim"
-                        placeholder="Ex: 12/02/2012" value="{{ filtros.data_fim}}">
+                <input type="date" class="form-control" id="filtro-data_fim" name="data_fim"
+                         value="{{ filtros.data_fim}}">
             </div>
             <div class="col-12 col-md-2">
                 <label for="filtro-estatus" class="form-label small fw-semibold mb-1">Estatus</label>

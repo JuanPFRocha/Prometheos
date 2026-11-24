@@ -26,5 +26,8 @@ urlpatterns = [
     path('relatorioOcorrencia/editar/<id>', fogoViews.editaRelatorioOcorrencia, name='editaRelatorioOcorrencia'),
     path('bombeiros', userViews.bombeiro, name='bombeiro'),
     path('bombeiros/editar/<matricula>', userViews.editaBombeiro, name='editaBombeiro'),
+    path('escala', userViews.escala, name='escala'),
+    path('escala/deletar/<id>', userViews.excluiEscala, name='excluirEscala'),
+    path('escala/adicionar', userViews.adicionaEscala, name='adicionaEscala')
     
 ]

@@ -92,3 +92,6 @@ def editaEscala(request, id=None):
 
     return render(request, 'usuarios/editaEscala.html', {"form" : form})
 
+def criaDespacho(request):
+    return render(request, 'usuarios/criaDespacho.html')
+

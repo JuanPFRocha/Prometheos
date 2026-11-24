@@ -19,6 +19,7 @@ urlpatterns = [
     path('eventoFogo/editar/<id>', fogoViews.editaEventoFogo, name='editaEventoFogo'),
 
     path('despacho', fogoViews.despacho, name='despacho'),
+    path('despacho/criar', userViews.criaDespacho, name='criaDespacho'),
 
     path('ordemServico/', fogoViews.ordemServico, name='ordemServico'),
     path('ordemServico/adicionar', fogoViews.adicionaOrdemServico, name='adicionaOrdemServico'),
@@ -32,10 +33,10 @@ urlpatterns = [
 
     path('bombeiros', userViews.bombeiro, name='bombeiro'),
     path('bombeiros/editar/<matricula>', userViews.editaBombeiro, name='editaBombeiro'),
-    
+
     path('escala', userViews.escala, name='escala'),
     path('escala/deletar/<id>', userViews.excluiEscala, name='excluirEscala'),
     path('escala/adicionar', userViews.adicionaEscala, name='adicionaEscala'),
-    path('escala/editar/<id>', userViews.editaEscala, name='editaEscala')
+    path('escala/editar/<id>', userViews.editaEscala, name='editaEscala'),
     
 ]

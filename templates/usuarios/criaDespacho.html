@@ -1,0 +1,264 @@
+{% extends 'layout.html' %}
+
+{% block title %}Gerar Despacho · Prometheos{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Força os elementos de form a ocuparem 100% da largura das colunas */
+    .form-field-wrapper input,
+    .form-field-wrapper select,
+    .form-field-wrapper textarea {
+        display: block !important;
+        width: 100% !important;
+        border: 1px solid #ced4da !important;
+        border-radius: 0.375rem !important;
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.95rem !important;
+        background-color: #fff !important;
+        box-sizing: border-box !important;
+    }
+
+    .form-field-wrapper select[multiple] {
+        min-height: 120px !important;
+        padding: 0.4rem !important;
+    }
+
+    .form-field-wrapper input:focus,
+    .form-field-wrapper select:focus,
+    .form-field-wrapper textarea:focus {
+        border-color: var(--fire-orange) !important;
+        outline: 0 !important;
+        box-shadow: 0 0 0 0.25rem rgba(255, 87, 34, 0.25) !important;
+    }
+
+    .form-field-wrapper textarea {
+        min-height: 115px !important;
+        resize: vertical !important;
+    }
+
+    .form-label-custom {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #333;
+        margin-bottom: 0.35rem;
+        display: block;
+    }
+
+    .section-divider-title {
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--purple-mid);
+        margin-bottom: 0.85rem;
+        padding-bottom: 0.35rem;
+        border-bottom: 1px solid #eceff1;
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+    }
+
+    .btn-fire-primary {
+        background: linear-gradient(135deg, var(--fire-orange), var(--fire-red-dark));
+        color: #ffffff;
+        border: none;
+        box-shadow: 0 4px 12px rgba(230, 74, 25, 0.3);
+        transition: all 0.2s ease;
+    }
+
+    .btn-fire-primary:hover {
+        background: linear-gradient(135deg, var(--fire-red-dark), #b71c1c);
+        color: #ffffff;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-12 col-xl-10 col-xxl-9">
+
+        <!-- Cabeçalho -->
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+            <div>
+                <h1 class="h3 fw-bold mb-0 text-dark">Gerar Despacho</h1>
+                <p class="text-muted small mb-0">Crie a equipe e gere o despacho automaticamente.</p>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+            <div style="height: 4px; background: linear-gradient(90deg, var(--fire-orange), var(--fire-red-dark), var(--purple-mid));"></div>
+
+            <form id="formGerarDespacho" method="post" action="" novalidate>
+                {% csrf_token %}
+
+                <div class="card-body p-4">
+
+                    <div id="alertaProficiencias" class="alert alert-danger d-none mb-4 rounded-3" role="alert">
+                        <i class="bi bi-exclamation-octagon-fill me-1"></i>
+                        A quantidade de proficiências selecionadas não pode ser maior que a quantidade de bombeiros na equipe.
+                    </div>
+
+                    <!-- SEÇÃO 1: Dados do Despacho -->
+                    <div class="section-divider-title">
+                         Dados do Despacho
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-12 col-md-2 form-field-wrapper">
+                            <label for="id_despacho" class="form-label-custom">
+                                <i class="bi bi-hash text-danger me-1"></i>ID
+                            </label>
+                            <input type="number" id="id_despacho" name="id" placeholder="Ex.: 1">
+                        </div>
+
+                        <div class="col-12 col-md-4 form-field-wrapper">
+                            <label for="id_ro" class="form-label-custom">
+                                <i class="bi bi-file-earmark-text-fill text-danger me-1"></i>Relatório de Ocorrência
+                            </label>
+                            <select id="id_ro" name="id_ro">
+                                <option value="">Selecione...</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-3 form-field-wrapper">
+                            <label for="estatus_despacho" class="form-label-custom">
+                                <i class="bi bi-info-circle text-primary me-1"></i>Estatus do Despacho
+                            </label>
+                            <select id="estatus_despacho" name="estatus_despacho">
+                                <option value="">Selecione...</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-3 form-field-wrapper">
+                            <label for="data" class="form-label-custom">
+                                <i class="bi bi-calendar-event text-warning-emphasis me-1"></i>Data e Hora
+                            </label>
+                            <input type="datetime-local" id="data" name="data">
+                        </div>
+                    </div>
+
+                    <!-- SEÇÃO 2: Criação da Equipe -->
+                    <div class="section-divider-title">
+                         Dados da Equipe
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-12 col-md-2 form-field-wrapper">
+                            <label for="codigo_equipe" class="form-label-custom">
+                                <i class="bi bi-upc-scan text-danger me-1"></i>ID
+                            </label>
+                            <input type="number" id="codigo_equipe" name="codigo_equipe" placeholder="Ex.: 101">
+                        </div>
+                        <div class="col-12 col-md-3 form-field-wrapper">
+                            <label for="codigo_equipe" class="form-label-custom">
+                                <i class="bi bi-upc-scan text-danger me-1"></i>Código da Equipe
+                            </label>
+                            <input type="number" id="codigo_equipe" name="codigo_equipe" placeholder="Ex.: 101">
+                        </div>
+
+                        <div class="col-12 col-md-3 form-field-wrapper">
+                            <label for="id_comandante" class="form-label-custom">
+                                <i class="bi bi-person-badge-fill text-primary me-1"></i>Comandante
+                            </label>
+                            <select id="id_comandante" name="id_comandante">
+                                <option value="">Selecione...</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-3 form-field-wrapper">
+                            <label for="estatus_equipe" class="form-label-custom">
+                                <i class="bi bi-shield-check text-success me-1"></i>Estatus da Equipe
+                            </label>
+                            <select id="estatus_equipe" name="estatus_equipe">
+                                <option value="">Selecione...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- SEÇÃO 3: Bombeiros e Proficiências -->
+                    <div class="section-divider-title">
+                         Bombeiros e Proficiências
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-4 form-field-wrapper">
+                            <label for="qtd_bombeiros" class="form-label-custom">
+                                <i class="bi bi-people-fill text-primary me-1"></i>Quantidade de Bombeiros
+                            </label>
+                            <input type="number" id="qtd_bombeiros" name="qtd_bombeiros" min="1" step="1" placeholder="Ex.: 4">
+                            <div class="form-text small">Limite máximo de proficiências selecionadas.</div>
+                        </div>
+
+                        <div class="col-12 col-md-8 form-field-wrapper">
+                            <label for="proficiencias" class="form-label-custom">
+                                <i class="bi bi-award-fill text-warning-emphasis me-1"></i>Proficiências (Enum)
+                            </label>
+                            <select id="proficiencias" name="proficiencias" multiple>
+                                <!-- Opções do Enum serão adicionadas depois -->
+                            </select>
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <span id="contadorProficiencias" class="text-muted small">0 selecionada(s)</span>
+                                <span class="text-muted small">Segure Ctrl/Cmd para selecionar múltiplas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Rodapé de Ações -->
+                <div class="card-footer bg-light border-top px-4 py-3 d-flex align-items-center justify-content-between">
+                    <div class="d-flex gap-2 ms-auto">
+                        <a href="{% url 'relatorioOcorrencia' %}" class="btn btn-outline-secondary px-4 rounded-3 fw-medium">
+                            <i class="fa-solid fa-rotate-left me-1"></i> Voltar
+                        </a>
+                        <button type="submit" class="btn btn-fire-primary px-4 rounded-3 fw-semibold">
+                            <i class="fa-solid fa-paper-plane me-1"></i> Gerar Despacho
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    (function () {
+        const form = document.getElementById('formGerarDespacho');
+        const qtdInput = document.getElementById('qtd_bombeiros');
+        const profSelect = document.getElementById('proficiencias');
+        const contador = document.getElementById('contadorProficiencias');
+        const alerta = document.getElementById('alertaProficiencias');
+
+        function validarProficiencias() {
+            if (!qtdInput || !profSelect) return true;
+
+            const selecionadas = profSelect.selectedOptions.length;
+            const qtdBombeiros = parseInt(qtdInput.value, 10);
+
+            if (contador) {
+                contador.textContent = `${selecionadas} selecionada(s)` + (Number.isInteger(qtdBombeiros) && qtdBombeiros > 0 ? ` / máx. ${qtdBombeiros}` : '');
+            }
+
+            const excedeu = Number.isInteger(qtdBombeiros) && qtdBombeiros >= 0 && selecionadas > qtdBombeiros;
+
+            if (alerta) {
+                alerta.classList.toggle('d-none', !excedeu);
+            }
+            profSelect.style.borderColor = excedeu ? '#dc3545' : '';
+
+            return !excedeu;
+        }
+
+        if (qtdInput) qtdInput.addEventListener('input', validarProficiencias);
+        if (profSelect) profSelect.addEventListener('change', validarProficiencias);
+
+        if (form) {
+            form.addEventListener('submit', function (event) {
+                if (!validarProficiencias()) {
+                    event.preventDefault();
+                    alerta?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        }
+    })();
+</script>
+
+{% endblock %}

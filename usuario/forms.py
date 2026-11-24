@@ -1,6 +1,7 @@
 from django import forms
 from django.db.models import Q
 from .models import *
+from evento_fogo.models import Despacho, RelatorioOcorrencia
 
 
 class BombeiroForm(forms.ModelForm):
@@ -86,7 +87,73 @@ class EscalaForm(forms.ModelForm):
         campo.empty_label = "Selecione uma guarnição"
         campo.label_from_instance = lambda e: f"{e.nome}"
         campo.queryset = Guarnicao.objects.order_by("codigo")
-        
+
+# ----------------------------  Seção para o despacho Automático ----------------------------------
+
+class DespachoForm(forms.ModelForm):
+    class Meta:
+        model = Despacho
+        fields = ['id', 'id_ro', 'estatus', 'data']
+        widgets = {
+            "data" : forms.DateTimeInput(
+                attrs={"type" : "datetime-local"},
+                format="%Y-%m-%dT%H:%M",
+            )
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['id'].widget.attrs['placeholder'] = 'Ex: 123'
+        campoRO = self.fields['id_ro']
+        campoRO.empty_label = 'Selecione o RO relacionado'
+        campoRO.label_from_instance = lambda ro: (
+            f"{ro.id} · {ro.data:%d/%m/%Y}"
+        )
+        campoRO.queryset = (
+            RelatorioOcorrencia.objects.order_by("-data")
+        )
+
+class EquipeForm(forms.ModelForm):
+    class Meta:
+        model = Equipe
+        fields = ['id', 'codigo', 'id_comandante', 'estatus']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['id'].widget.attrs['placeholder'] = 'Ex: 123'
+        self.fields['codigo'].widget.attrs['placeholder'] = 'Ex: 2026001'
+        campoComandante = self.fields['id_comandante']
+        campoComandante.empty_label = 'Selecione o Comandante'
+        campoComandante.label_from_instance = lambda co: (
+            f"{co.id_usuario.nome}"
+        )
+        campoComandante.queryset = (
+            Bombeiro.objects.filter(id_usuario__perfil="COMANDO")
+            .select_related("id_usuario").order_by("-id_usuario__nome")
+        )
+
+class CriteriosEquipeForm(forms.Form):
+    qtd_bombeiros = forms.IntegerField(min_value=1, label='Quantidade de bombeiros')
+    profi = forms.MultipleChoiceField(choices=Proficiencia.choices, required=False,
+                                       widget=forms.SelectMultiple, label='Proficiências')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['qtd_bombeiros'].widget.attrs['placeholder'] = 'Ex: 2'
+
+    def clean(self):
+        dados = super().clean()
+        qtd = dados.get("qtd_bombeiros")
+        profs = dados.get("proficiencias", [])
+        if qtd and len(profs) > qtd:
+            self.add_error(
+                "proficiencias",
+                f"Selecione no máximo {qtd} proficiência(s), uma por bombeiro.",
+            )
+        return dados
 
 
 

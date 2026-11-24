@@ -59,6 +59,12 @@
         gap: 0.45rem;
     }
 
+    .campo-erro {
+        color: #dc3545;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+
     .btn-fire-primary {
         background: linear-gradient(135deg, var(--fire-orange), var(--fire-red-dark));
         color: #ffffff;
@@ -92,6 +98,17 @@
 
                 <div class="card-body p-4">
 
+                    <!-- Erros gerais (ex.: falta de bombeiros livres) -->
+                    {% if form_despacho.non_field_errors or form_equipe.non_field_errors or form_criterios.non_field_errors %}
+                    <div class="alert alert-danger mb-4 rounded-3" role="alert">
+                        <i class="bi bi-exclamation-octagon-fill me-1"></i>
+                        {% for e in form_despacho.non_field_errors %}<div>{{ e }}</div>{% endfor %}
+                        {% for e in form_equipe.non_field_errors %}<div>{{ e }}</div>{% endfor %}
+                        {% for e in form_criterios.non_field_errors %}<div>{{ e }}</div>{% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Alerta do JavaScript (proficiências x quantidade) -->
                     <div id="alertaProficiencias" class="alert alert-danger d-none mb-4 rounded-3" role="alert">
                         <i class="bi bi-exclamation-octagon-fill me-1"></i>
                         A quantidade de proficiências selecionadas não pode ser maior que a quantidade de bombeiros na equipe.
@@ -99,99 +116,100 @@
 
                     <!-- SEÇÃO 1: Dados do Despacho -->
                     <div class="section-divider-title">
-                         Dados do Despacho
+                        Dados do Despacho
                     </div>
                     <div class="row g-3 mb-4">
                         <div class="col-12 col-md-2 form-field-wrapper">
-                            <label for="id_despacho" class="form-label-custom">
-                                <i class="bi bi-hash text-danger me-1"></i>ID
+                            <label for="{{ form_despacho.id.id_for_label }}" class="form-label-custom">
+                                <i class="bi bi-hash text-danger me-1"></i>Número de Segurança
                             </label>
-                            <input type="number" id="id_despacho" name="id" placeholder="Ex.: 1">
+                            {{ form_despacho.id }}
+                            {% for e in form_despacho.id.errors %}<div class="campo-erro">{{ e }}</div>{% endfor %}
                         </div>
 
                         <div class="col-12 col-md-4 form-field-wrapper">
-                            <label for="id_ro" class="form-label-custom">
+                            <label for="{{ form_despacho.id_ro.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-file-earmark-text-fill text-danger me-1"></i>Relatório de Ocorrência
                             </label>
-                            <select id="id_ro" name="id_ro">
-                                <option value="">Selecione...</option>
-                            </select>
+                            {{ form_despacho.id_ro }}
+                            {% for e in form_despacho.id_ro.errors %}<div class="campo-erro">{{ e }}</div>{% endfor %}
                         </div>
 
                         <div class="col-12 col-md-3 form-field-wrapper">
-                            <label for="estatus_despacho" class="form-label-custom">
+                            <label for="{{ form_despacho.estatus.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-info-circle text-primary me-1"></i>Estatus do Despacho
                             </label>
-                            <select id="estatus_despacho" name="estatus_despacho">
-                                <option value="">Selecione...</option>
-                            </select>
+                            {{ form_despacho.estatus }}
+                            {% for e in form_despacho.estatus.errors %}<div class="campo-erro">{{ e }}</div>{% endfor %}
                         </div>
 
                         <div class="col-12 col-md-3 form-field-wrapper">
-                            <label for="data" class="form-label-custom">
+                            <label for="{{ form_despacho.data.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-calendar-event text-warning-emphasis me-1"></i>Data e Hora
                             </label>
-                            <input type="datetime-local" id="data" name="data">
+                            {{ form_despacho.data }}
+                            {% for e in form_despacho.data.errors %}<div class="campo-erro">{{ e }}</div>{% endfor %}
                         </div>
                     </div>
 
                     <!-- SEÇÃO 2: Criação da Equipe -->
                     <div class="section-divider-title">
-                         Dados da Equipe
+                        Dados da Equipe
                     </div>
                     <div class="row g-3 mb-4">
                         <div class="col-12 col-md-2 form-field-wrapper">
-                            <label for="codigo_equipe" class="form-label-custom">
-                                <i class="bi bi-upc-scan text-danger me-1"></i>ID
+                            <label for="{{ form_equipe.id.id_for_label }}" class="form-label-custom">
+                                <i class="bi bi-hash text-danger me-1"></i>Número de Segurança
                             </label>
-                            <input type="number" id="codigo_equipe" name="codigo_equipe" placeholder="Ex.: 101">
+                            {{ form_equipe.id }}
+                            {% for e in form_equipe.id.errors %}<div class="campo-erro">{{ e }}</div>{% endfor %}
                         </div>
+
                         <div class="col-12 col-md-3 form-field-wrapper">
-                            <label for="codigo_equipe" class="form-label-custom">
+                            <label for="{{ form_equipe.codigo.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-upc-scan text-danger me-1"></i>Código da Equipe
                             </label>
-                            <input type="number" id="codigo_equipe" name="codigo_equipe" placeholder="Ex.: 101">
+                            {{ form_equipe.codigo }}
+                            {% for e in form_equipe.codigo.errors %}<div class="campo-erro">{{ e }}</div>{% endfor %}
                         </div>
 
-                        <div class="col-12 col-md-3 form-field-wrapper">
-                            <label for="id_comandante" class="form-label-custom">
+                        <div class="col-12 col-md-4 form-field-wrapper">
+                            <label for="{{ form_equipe.id_comandante.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-person-badge-fill text-primary me-1"></i>Comandante
                             </label>
-                            <select id="id_comandante" name="id_comandante">
-                                <option value="">Selecione...</option>
-                            </select>
+                            {{ form_equipe.id_comandante }}
+                            {% for e in form_equipe.id_comandante.errors %}<div class="campo-erro">{{ e }}</div>{% endfor %}
                         </div>
 
                         <div class="col-12 col-md-3 form-field-wrapper">
-                            <label for="estatus_equipe" class="form-label-custom">
+                            <label for="{{ form_equipe.estatus.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-shield-check text-success me-1"></i>Estatus da Equipe
                             </label>
-                            <select id="estatus_equipe" name="estatus_equipe">
-                                <option value="">Selecione...</option>
-                            </select>
+                            {{ form_equipe.estatus }}
+                            {% for e in form_equipe.estatus.errors %}<div class="campo-erro">{{ e }}</div>{% endfor %}
                         </div>
                     </div>
 
                     <!-- SEÇÃO 3: Bombeiros e Proficiências -->
                     <div class="section-divider-title">
-                         Bombeiros e Proficiências
+                        Bombeiros e Proficiências
                     </div>
                     <div class="row g-3">
                         <div class="col-12 col-md-4 form-field-wrapper">
-                            <label for="qtd_bombeiros" class="form-label-custom">
+                            <label for="{{ form_criterios.qtd_bombeiros.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-people-fill text-primary me-1"></i>Quantidade de Bombeiros
                             </label>
-                            <input type="number" id="qtd_bombeiros" name="qtd_bombeiros" min="1" step="1" placeholder="Ex.: 4">
+                            {{ form_criterios.qtd_bombeiros }}
+                            {% for e in form_criterios.qtd_bombeiros.errors %}<div class="campo-erro">{{ e }}</div>{% endfor %}
                             <div class="form-text small">Limite máximo de proficiências selecionadas.</div>
                         </div>
 
                         <div class="col-12 col-md-8 form-field-wrapper">
-                            <label for="proficiencias" class="form-label-custom">
-                                <i class="bi bi-award-fill text-warning-emphasis me-1"></i>Proficiências (Enum)
+                            <label for="{{ form_criterios.profi.id_for_label }}" class="form-label-custom">
+                                <i class="bi bi-award-fill text-warning-emphasis me-1"></i>Proficiências
                             </label>
-                            <select id="proficiencias" name="proficiencias" multiple>
-                                <!-- Opções do Enum serão adicionadas depois -->
-                            </select>
+                            {{ form_criterios.profi }}
+                            {% for e in form_criterios.profi.errors %}<div class="campo-erro">{{ e }}</div>{% endfor %}
                             <div class="d-flex justify-content-between align-items-center mt-1">
                                 <span id="contadorProficiencias" class="text-muted small">0 selecionada(s)</span>
                                 <span class="text-muted small">Segure Ctrl/Cmd para selecionar múltiplas</span>
@@ -222,8 +240,9 @@
 <script>
     (function () {
         const form = document.getElementById('formGerarDespacho');
-        const qtdInput = document.getElementById('qtd_bombeiros');
-        const profSelect = document.getElementById('proficiencias');
+        // Os ids levam o prefixo do formulário: id_<prefixo>-<campo>
+        const qtdInput = document.getElementById('{{ form_criterios.qtd_bombeiros.id_for_label }}');
+        const profSelect = document.getElementById('{{ form_criterios.profi.id_for_label }}');
         const contador = document.getElementById('contadorProficiencias');
         const alerta = document.getElementById('alertaProficiencias');
 
@@ -234,7 +253,8 @@
             const qtdBombeiros = parseInt(qtdInput.value, 10);
 
             if (contador) {
-                contador.textContent = `${selecionadas} selecionada(s)` + (Number.isInteger(qtdBombeiros) && qtdBombeiros > 0 ? ` / máx. ${qtdBombeiros}` : '');
+                contador.textContent = `${selecionadas} selecionada(s)` +
+                    (Number.isInteger(qtdBombeiros) && qtdBombeiros > 0 ? ` / máx. ${qtdBombeiros}` : '');
             }
 
             const excedeu = Number.isInteger(qtdBombeiros) && qtdBombeiros >= 0 && selecionadas > qtdBombeiros;
@@ -258,6 +278,9 @@
                 }
             });
         }
+
+        // Atualiza o contador ao abrir a página (útil quando o POST volta com erro)
+        validarProficiencias();
     })();
 </script>
 

@@ -15,11 +15,11 @@
                 <td>{{ bombeiro.id_usuario.email }}</td>
                 <td>{{ bombeiro.matricula }}</td>
                 <td>
-                    {% for escala in bombeiro.id_escala.all %}
-                        {{ escala.data_inicio|date:"d/m/Y" }} a {{ escala.data_fim|date:"d/m/Y" }}{% if not forloop.last %}, {% endif %}
-                    {% empty %}
+                    {% if bombeiro.id_escala %}
+                        {{ bombeiro.id_escala.data_inicio|date:"d/m/Y" }} a {{ bombeiro.id_escala.data_fim|date:"d/m/Y" }}
+                    {% else %}
                         —
-                    {% endfor %}
+                    {% endif %}
                 </td>
             </tr>
             {% empty %}

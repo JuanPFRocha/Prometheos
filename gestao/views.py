@@ -29,6 +29,13 @@ def dashboard(request):
 
     return render(request, 'gestao/dashboard.html', contexto)
 
+def adicionaNoticia(request):
+    form = NoticiaForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('eventoFogo')
+    return render(request, 'gestao/adicionaNoticia.html', {"form" : form})
+
 def guarnicao(request):
     guarnicoes = Guarnicao.objects.all().order_by("codigo")
 

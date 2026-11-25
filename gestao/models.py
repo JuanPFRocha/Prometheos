@@ -38,7 +38,7 @@ class Guarnicao(models.Model):
 class NoticiaFogo(models.Model):
        id = models.IntegerField(primary_key=True)
        id_evento_fogo = models.ForeignKey("evento_fogo.EventoFogo", on_delete=models.CASCADE)
-       titulo = models.TextField(max_length=200)
+       titulo = models.CharField(max_length=200)
        descricao = models.TextField(max_length=600)
        data = models.DateField(blank=True, null=True)
        def __str__(self):

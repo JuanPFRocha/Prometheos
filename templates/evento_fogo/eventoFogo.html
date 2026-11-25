@@ -119,6 +119,10 @@
                             title="Editar" aria-label="Criar Despacho {{ evento.pk }}">
                             <i class="fa-solid fa-pen-nib"></i> Criar OS
                         </a>
+                        <a href="{% url 'adicionaNoticia' %}" class="btn btn-sm btn-outline-primary"
+                            title="Editar" aria-label="Criar noticia {{ evento.pk }}">
+                            <i class="fa-regular fa-newspaper"></i> Criar notícia
+                        </a>
                         <a href="{% url 'editaEventoFogo' evento.id %}" class="btn btn-sm btn-outline-secondary"
                            title="Editar" aria-label="Editar evento {{ evento.pk }}">
                             <i class="fa-solid fa-pen-to-square"></i> Editar

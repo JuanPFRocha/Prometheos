@@ -56,7 +56,10 @@ class Despacho(models.Model):
     id_ro = models.ForeignKey(RelatorioOcorrencia, on_delete=models.CASCADE)
     id_equipe = models.OneToOneField(Equipe, on_delete=models.PROTECT)
     data = models.DateTimeField()
-    estatus = models.CharField(choices=Estatus, default=Estatus.ANDAMENTO)
+    estatus = models.CharField(choices=[
+           (Estatus.ANDAMENTO.value, Estatus.ANDAMENTO.label),
+            (Estatus.FECHADA.value, Estatus.FECHADA.label)
+    ], default=Estatus.ANDAMENTO)
     def __str__(self):
                 return f"ID: {self.id}"
 

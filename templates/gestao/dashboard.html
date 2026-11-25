@@ -18,7 +18,7 @@
         border-radius: 0.5rem;
         display: flex;
         flex-direction: column;
-        min-height: 500;
+        min-height: 500px;
         max-height: 680px;
     }
 
@@ -40,11 +40,12 @@
     }
 
     .news-item-card {
+        font-size: 1.2em;
         background-color: #ffffff;
         border: 1px solid #e9ecef;
         border-left: 3px solid var(--fire-orange, #FF5722);
         border-radius: 0.4rem;
-        padding: 0.75rem;
+        padding: 0.75rem 3.25rem 0.75rem 0.85rem;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
@@ -52,6 +53,36 @@
     .news-item-card:hover {
         transform: translateY(-1px);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .news-delete-form {
+        position: absolute;
+        top: 50%;
+        right: 0.8rem;
+        transform: translateY(-50%);
+        margin: 0;
+        line-height: 1;
+    }
+
+    .news-delete-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(211, 47, 47, 0.08);
+        color: #D32F2F;
+        border: 1px solid rgba(211, 47, 47, 0.22);
+        padding: 0;
+        font-size: 0.85rem;
+        transition: all 0.15s ease;
+    }
+
+    .news-delete-btn:hover {
+        background-color: #D32F2F;
+        color: #ffffff;
+        border-color: #D32F2F;
     }
 </style>
 
@@ -137,7 +168,6 @@
 
     </div>
 
-    
     <!-- PAINEL ÚNICO: NOTÍCIAS SEPARADAS EM COLUNAS POR EVENTO DE FOGO -->
     <div class="row g-3">
         <div class="col-12">
@@ -164,12 +194,20 @@
                             <!-- Lista de Notícias daquele Evento -->
                             <div class="news-event-column-body">
                                 {% for noticia in lista_noticias %}
-                                <div class="news-item-card">
+                                <div class="news-item-card position-relative">
+                                    <!-- Botão Redondo de Excluir no Meio à Direita -->
+                                    <form method="post" action="" class="news-delete-form" onsubmit="return confirm('Deseja excluir esta notícia?');">
+                                        {% csrf_token %}
+                                        <a href="{% url 'excluirNoticia' noticia.id %}" type="submit" class="news-delete-btn" title="Excluir notícia">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a>
+                                    </form>
+
                                     <h6 class="fw-bold text-dark mb-1 small">
                                         {{ noticia.titulo }}
                                     </h6>
                                     <p class="text-muted small mb-2">
-                                        {{ noticia.conteudo|default:noticia.descricao|truncatechars:140 }}
+                                        {{ noticia.conteudo|default:noticia.descricao|truncatechars:180 }}
                                     </p>
                                     <div class="d-flex align-items-center justify-content-between text-muted" style="font-size: 0.72rem;">
                                         <span>

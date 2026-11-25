@@ -36,6 +36,11 @@ def adicionaNoticia(request):
         return redirect('eventoFogo')
     return render(request, 'gestao/adicionaNoticia.html', {"form" : form})
 
+def excluirNoticia(request, id=None):
+    noticia = NoticiaFogo.objects.get(pk=id)
+    noticia.delete()
+    return redirect('dashboard')
+
 def guarnicao(request):
     guarnicoes = Guarnicao.objects.all().order_by("codigo")
 

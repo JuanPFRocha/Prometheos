@@ -40,6 +40,7 @@ urlpatterns = [
     path('escala/adicionar', userViews.adicionaEscala, name='adicionaEscala'),
     path('escala/editar/<id>', userViews.editaEscala, name='editaEscala'),
 
-    path('noticia/adicionar', views.adicionaNoticia, name='adicionaNoticia')
+    path('noticia/adicionar', views.adicionaNoticia, name='adicionaNoticia'),
+    path('noticia/escluir/<id>', views.excluirNoticia, name='excluirNoticia')
     
 ]

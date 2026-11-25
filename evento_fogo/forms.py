@@ -16,6 +16,9 @@ class EventoFogoForm(forms.ModelForm):
         self.fields['longitude'].widget.attrs['placeholder'] = 'Ex: 32.13232'
         self.fields['codigo'].widget.attrs['placeholder'] = 'Código de identificação'
 
+        if self.instance and self.instance.pk:
+            self.fields['id'].disabled = True
+
 class OrdemServicoForm(forms.ModelForm):
     class Meta:
         model = OrdemServico
@@ -38,8 +41,14 @@ class OrdemServicoForm(forms.ModelForm):
             disponivel |= Q(pk=self.instance.id_evento_fogo_id)
 
         campo.queryset = EventoFogo.objects.filter(disponivel).order_by("-data_registro")
+        if self.instance and self.instance.pk:
+            self.fields['id'].disabled = True
 
 class RelatorioOcorrenciaForm(forms.ModelForm):
+    data = forms.DateTimeField(input_formats=["%d/%m/%Y %H:%M"], widget=forms.DateTimeInput(
+        format="%d/%m/%Y %H:%M", attrs={"placeholder" : "Ex: 16/09/2004 12:00"}
+    ))
+
     class Meta:
         model = RelatorioOcorrencia
         fields = '__all__'
@@ -47,8 +56,8 @@ class RelatorioOcorrenciaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(RelatorioOcorrenciaForm, self).__init__(*args, **kwargs)
         self.fields['id'].widget.attrs['placeholder'] = 'Número de segurança'
-        self.fields['data'].widget.attrs['placeholder'] = 'Ex: 16/09/2004'
         self.fields['descricao'].widget.attrs['placeholder'] = 'Digite a descrição do Relatório'
+        self.fields['codigo'].widget.attrs['placeholder'] = 'Código de segurança'
         campo = self.fields['id_os']
         campo.widget = forms.Select(attrs={"class" : "form-select"})
         campo.empty_label = "Seleciona uma OS"
@@ -57,3 +66,6 @@ class RelatorioOcorrenciaForm(forms.ModelForm):
         )
 
         campo.queryset = OrdemServico.objects.order_by("-data_emissao")
+
+        if self.instance and self.instance.pk:
+            self.fields['id'].disabled = True

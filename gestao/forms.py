@@ -13,6 +13,8 @@ class GuarnicaoForm(forms.ModelForm):
         self.fields['codigo'].widget.attrs['placeholder'] = 'Código de identificação'
         self.fields['nome'].widget.attrs['placeholder'] = 'Nome da Guarnição'
         self.fields['cep'].widget.attrs['placeholder'] = 'Ex: 12345678'
+        if self.instance and self.instance.pk:
+            self.fields['id'].disabled = True
 
 class NoticiaForm(forms.ModelForm):
     class Meta:
@@ -32,4 +34,6 @@ class NoticiaForm(forms.ModelForm):
             campoEventoFogo.queryset = (
                  EventoFogo.objects.order_by("-id")
             )
+            if self.instance and self.instance.pk:
+                self.fields['id'].disabled = True
 

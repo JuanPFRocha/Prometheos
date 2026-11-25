@@ -167,6 +167,7 @@ def adicionaRelatorioOcorrencia(request):
     if form.is_valid():
         form.save()
         return redirect('relatorioOcorrencia')
+    
     return render(request, 'evento_fogo/adicionaRelatorioOcorrencia.html', {"form" : form})
 
 def excluiRelatorioOcorrencia(request, id=None):

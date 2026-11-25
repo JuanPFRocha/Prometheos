@@ -93,9 +93,18 @@
                                 <div class="text-danger small mt-1">{{ form.id.errors.0 }}</div>
                             {% endif %}
                         </div>
+                        <div class="col-12 col-md-2 form-field-wrapper">
+                            <label for="{{ form.codigo.id_for_label }}" class="form-label-custom">
+                                <i class="bi bi-fingerprint text-danger me-1"></i>Código
+                            </label>
+                            <div>{{ form.codigo }}</div>
+                            {% if form.codigo.errors %}
+                                <div class="text-danger small mt-1">{{ form.codigo.errors.0 }}</div>
+                            {% endif %}
+                        </div>
 
                         <!-- Evento de Fogo (Ajustado para o campo correto do form de OS) -->
-                        <div class="col-12 col-md-3 form-field-wrapper">
+                        <div class="col-12 col-md-2 form-field-wrapper">
                             <label for="{{ form.id_os.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-hash text-danger me-1"></i>Ordem de Serviço
                             </label>
@@ -107,7 +116,7 @@
 
                         <!-- Data e Hora do Registro -->
                         <div class="col-12 col-md-2 form-field-wrapper">
-                            <label for="{{ form.data_registro.id_for_label }}" class="form-label-custom">
+                            <label for="{{ form.data.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-calendar-event text-warning-emphasis me-1"></i>Data e Hora
                             </label>
                             <div>{{ form.data }}</div>
@@ -115,7 +124,7 @@
                                 <div class="text-danger small mt-1">{{ form.data.errors.0 }}</div>
                             {% endif %}
                         </div>
-                        <div class="col-12 col-md-4 form-field-wrapper">
+                        <div class="col-12 col-md-3 form-field-wrapper">
                             <label for="{{ form.descricao.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-card-text text-secondary me-1"></i>Descrição do Relatório
                             </label>
@@ -136,7 +145,7 @@
                             <i class="fa-solid fa-rotate-left me-1"></i> Voltar
                         </a>
                         <button type="submit" class="btn btn-fire-primary px-4 rounded-3 fw-semibold">
-                            <i class="fa-solid fa-floppy-disk me-1"></i> Salvar OS
+                            <i class="fa-solid fa-floppy-disk me-1"></i> Salvar RO
                         </button>
                     </div>
                 </div>

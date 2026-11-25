@@ -92,6 +92,15 @@
                                 <div class="text-danger small mt-1">{{ form.id.errors.0 }}</div>
                             {% endif %}
                         </div>
+                        <div class="col-12 col-md-2 form-field-wrapper">
+                            <label for="{{ form.codigo.id_for_label }}" class="form-label-custom">
+                                <i class="bi bi-fingerprint text-danger me-1"></i>Código
+                            </label>
+                            <div>{{ form.codigo }}</div>
+                            {% if form.codigo.errors %}
+                                <div class="text-danger small mt-1">{{ form.codigo.errors.0 }}</div>
+                            {% endif %}
+                        </div>
 
                         <div class="col-12 col-md-2 form-field-wrapper">
                             <label for="{{ form.codigo.id_for_label }}" class="form-label-custom">
@@ -103,7 +112,7 @@
                             {% endif %}
                         </div>
 
-                        <div class="col-12 col-md-3 form-field-wrapper">
+                        <div class="col-12 col-md-2 form-field-wrapper">
                             <label for="{{ form.data_registro.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-calendar-event text-warning-emphasis me-1"></i>Data e Hora do Registro
                             </label>
@@ -112,7 +121,7 @@
                                 <div class="text-danger small mt-1">{{ form.data.errors.0 }}</div>
                             {% endif %}
                         </div>
-                        <div class="col-12 col-md-4 form-field-wrapper">
+                        <div class="col-12 col-md-3 form-field-wrapper">
                             <label for="{{ form.descricao.id_for_label }}" class="form-label-custom">
                                 <i class="bi bi-card-text text-secondary me-1"></i>Descrição do Relatorio de Ocorrência
                             </label>

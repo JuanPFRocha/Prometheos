@@ -88,6 +88,9 @@ class EscalaForm(forms.ModelForm):
         campo.label_from_instance = lambda e: f"{e.nome}"
         campo.queryset = Guarnicao.objects.order_by("codigo")
 
+        if self.instance and self.instance.pk:
+            self.fields['id'].disabled = True
+
 # ----------------------------  Seção para o despacho Automático ----------------------------------
 
 class DespachoForm(forms.ModelForm):
@@ -133,6 +136,7 @@ class EquipeForm(forms.ModelForm):
             Bombeiro.objects.filter(id_usuario__perfil="COMANDO")
             .select_related("id_usuario").order_by("-id_usuario__nome")
         )
+        
 
 class CriteriosEquipeForm(forms.Form):
     qtd_bombeiros = forms.IntegerField(min_value=1, label='Quantidade de bombeiros')

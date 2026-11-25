@@ -1,6 +1,60 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<style>
+    .news-board-scroll {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        padding-bottom: 0.75rem;
+        align-items: stretch;
+    }
+
+    .news-event-column {
+        min-width: 380px;
+        flex: 0 0 380px;
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        min-height: 500;
+        max-height: 680px;
+    }
+
+    .news-event-column-header {
+        padding: 0.75rem 1rem;
+        background-color: #ffffff;
+        border-bottom: 1px solid #e9ecef;
+        border-top: 3px solid var(--fire-red-dark, #D32F2F);
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    .news-event-column-body {
+        padding: 0.75rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+        flex-grow: 1;
+    }
+
+    .news-item-card {
+        background-color: #ffffff;
+        border: 1px solid #e9ecef;
+        border-left: 3px solid var(--fire-orange, #FF5722);
+        border-radius: 0.4rem;
+        padding: 0.75rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .news-item-card:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+</style>
+
 <div class="container-fluid">
     <!-- Cabeçalho Simples da Página -->
     <div class="d-flex align-items-center justify-content-between mb-4">
@@ -21,9 +75,6 @@
                         <div>
                             <span class="text-uppercase fw-bold text-muted" style="font-size: 0.72rem; letter-spacing: 0.5px;">Eventos de Fogo Abertos</span>
                             <h2 class="display-6 fw-bold my-1 text-dark">{{ qtdEventoFogo }}</h2>
-                            <a href="">
-                               
-                            </a>
                         </div>
                         <div class="rounded-3 p-3 d-flex align-items-center justify-content-center" style="background-color: rgba(211, 47, 47, 0.1); width: 48px; height: 48px;">
                             <i class="fa-solid fa-fire-flame-curved text-danger fs-4"></i>
@@ -41,7 +92,6 @@
                         <div>
                             <span class="text-uppercase fw-bold text-muted" style="font-size: 0.72rem; letter-spacing: 0.5px;">Ordens de Serviço Abertas</span>
                             <h2 class="display-6 fw-bold my-1 text-dark">{{ qtdOrdemServico }}</h2>
-                            
                         </div>
                         <div class="rounded-3 p-3 d-flex align-items-center justify-content-center" style="background-color: rgba(255, 87, 34, 0.1); width: 48px; height: 48px;">
                             <i class="bi bi-clipboard-pulse text-warning-emphasis fs-4"></i>
@@ -59,7 +109,6 @@
                         <div>
                             <span class="text-uppercase fw-bold text-muted" style="font-size: 0.72rem; letter-spacing: 0.5px;">Despachos Realizados</span>
                             <h2 class="display-6 fw-bold my-1 text-dark">{{ qtdDespacho }}</h2>
-                            
                         </div>
                         <div class="rounded-3 p-3 d-flex align-items-center justify-content-center" style="background-color: rgba(123, 31, 162, 0.1); width: 48px; height: 48px;">
                             <i class="bi bi-truck-front-fill fs-4" style="color: #7B1FA2;"></i>
@@ -77,7 +126,6 @@
                         <div>
                             <span class="text-uppercase fw-bold text-muted" style="font-size: 0.72rem; letter-spacing: 0.5px;">Bombeiros Disponíveis</span>
                             <h2 class="display-6 fw-bold my-1 text-dark">{{ qtdBombeiro }}</h2>
-                            
                         </div>
                         <div class="rounded-3 p-3 d-flex align-items-center justify-content-center" style="background-color: rgba(25, 135, 84, 0.1); width: 48px; height: 48px;">
                             <i class="bi bi-people-fill text-success fs-4"></i>
@@ -89,38 +137,65 @@
 
     </div>
 
-    <!-- ÁREA SECUNDÁRIA: RESERVA DE ESPAÇO PARA MAPA E PAINEL LATERAL -->
+    
+    <!-- PAINEL ÚNICO: NOTÍCIAS SEPARADAS EM COLUNAS POR EVENTO DE FOGO -->
     <div class="row g-3">
-        <!-- Estrutura / Container para Mapa/Monitoramento futuro -->
-        <div class="col-12 col-lg-8">
-            <div class="card border-0 shadow-sm h-100">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-bottom py-3 d-flex align-items-center justify-content-between">
                     <h6 class="card-title fw-bold m-0 text-dark">
-                        <i class="bi bi-map-fill me-2 text-danger"></i>Painel Geral de Ocorrências e Monitoramento
+                        <i class="bi bi-newspaper me-2 text-danger"></i>Notícias por Evento de Fogo
                     </h6>
                 </div>
-                <div class="card-body d-flex align-items-center justify-content-center bg-light text-muted p-5 rounded-bottom" style="min-height: 320px;">
-                    <div class="text-center">
-                        <i class="bi bi-compass fs-1 opacity-50 d-block mb-2"></i>
-                        <span class="fw-medium">Área reservada para o Mapa GIS / Tabela de Eventos</span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Estrutura / Container para Atividades e Avisos -->
-        <div class="col-12 col-lg-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white border-bottom py-3">
-                    <h6 class="card-title fw-bold m-0 text-dark">
-                        <i class="bi bi-activity me-2" style="color: #7B1FA2;"></i>Atividades Recentes
-                    </h6>
-                </div>
-                <div class="card-body d-flex align-items-center justify-content-center bg-light text-muted p-5 rounded-bottom" style="min-height: 320px;">
-                    <div class="text-center">
-                        <i class="bi bi-clock-history fs-1 opacity-50 d-block mb-2"></i>
-                        <span class="fw-medium">Área reservada para o Feed de Eventos / Logs</span>
+                <div class="card-body p-3">
+                    {% if noticias_por_evento %}
+                    <div class="news-board-scroll">
+                        {% for evento, lista_noticias in noticias_por_evento.items %}
+                        <div class="news-event-column">
+                            <!-- Cabeçalho Minimalista -->
+                            <div class="news-event-column-header">
+                                <span class="fw-bold text-dark text-truncate d-block">
+                                    <i class="fa-solid fa-fire text-danger me-1"></i>
+                                    Evento #{{ evento.codigo|default:evento.id }}
+                                </span>
+                            </div>
+
+                            <!-- Lista de Notícias daquele Evento -->
+                            <div class="news-event-column-body">
+                                {% for noticia in lista_noticias %}
+                                <div class="news-item-card">
+                                    <h6 class="fw-bold text-dark mb-1 small">
+                                        {{ noticia.titulo }}
+                                    </h6>
+                                    <p class="text-muted small mb-2">
+                                        {{ noticia.conteudo|default:noticia.descricao|truncatechars:140 }}
+                                    </p>
+                                    <div class="d-flex align-items-center justify-content-between text-muted" style="font-size: 0.72rem;">
+                                        <span>
+                                            <i class="bi bi-clock me-1"></i>
+                                            {{ noticia.data|default:noticia.data|date:"d/m/Y" }}
+                                        </span>
+                                        {% if noticia.link %}
+                                        <a href="{{ noticia.link }}" target="_blank" rel="noopener noreferrer" class="text-danger fw-semibold text-decoration-none">
+                                            Ler mais <i class="bi bi-box-arrow-up-right"></i>
+                                        </a>
+                                        {% elif noticia.fonte %}
+                                        <span>{{ noticia.fonte }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
+                    {% else %}
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-newspaper fs-1 opacity-50 d-block mb-2"></i>
+                        <span class="fw-medium">Nenhuma notícia vinculada a eventos de fogo.</span>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 from django.db import transaction
+from collections import defaultdict
 from django.http import request
 from django.shortcuts import render, redirect
 from evento_fogo.models import EventoFogo, OrdemServico, Despacho
@@ -12,11 +13,18 @@ def dashboard(request):
     qtd_despacho = Despacho.objects.filter(estatus="ANDAMENTO").count()
     qtd_bombeiro = Bombeiro.objects.filter(estatus="LIVRE").count()
 
+    noticias = NoticiaFogo.objects.filter(id_evento_fogo__isnull=False).order_by("-id")
+    noticias_por_evento = defaultdict(list)
+    for noticia in noticias:
+        noticias_por_evento[noticia.id_evento_fogo].append(noticia)
+
+
     contexto = {
         "qtdEventoFogo" : qtd_evento_fogo,
         "qtdOrdemServico" : qtd_ordem_servico,
         "qtdDespacho" : qtd_despacho,
-        "qtdBombeiro" : qtd_bombeiro
+        "qtdBombeiro" : qtd_bombeiro,
+        "noticias_por_evento": dict(noticias_por_evento),
     }
 
     return render(request, 'gestao/dashboard.html', contexto)
